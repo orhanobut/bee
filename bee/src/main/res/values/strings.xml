@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Debug Drawer</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="end_point">End Point</string>
+    <string name="debug_save">Save</string>
+    <string name="debug_close">Close</string>
+
+</resources>
