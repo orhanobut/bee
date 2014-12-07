@@ -1,8 +1,8 @@
 ##Introduction
-Bee is a debug tool for developers to configure the application and see the log on the fly.
+Bee is a debug tool for developers and QA to configure the application and see the configured logs, information about the application, clipboard to put some info and see them all the time and settings for the configuration.
 
 ##Setup
-Extend BeeConfig class and add content for the following
+####1. Extend BeeConfig class and add content for the following
 
 <pre>
 public class AppBeeConfig extends BeeConfig {
