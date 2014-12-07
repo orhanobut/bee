@@ -10,16 +10,31 @@
     android:visibility="gone"
     tools:visibility="visible">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="30dp"
+        android:orientation="vertical"
         android:paddingTop="50dp">
+
+        <TextView
+            android:id="@+id/container_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:padding="4dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
             android:background="@android:color/background_light"
             android:orientation="vertical">
 
@@ -74,7 +89,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/c000"/>
+                android:background="@android:color/darker_gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -119,7 +134,7 @@
             </LinearLayout>
 
         </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

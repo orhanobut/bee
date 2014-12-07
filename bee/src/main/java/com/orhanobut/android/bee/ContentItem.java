@@ -3,12 +3,12 @@ package com.orhanobut.android.bee;
 /**
  * @author Orhan Obut
  */
-class Info implements ContentHolder {
+class ContentItem implements ContentHolder {
 
     private final String title;
     private final String value;
 
-    Info(String title, String value) {
+    ContentItem(String title, String value) {
         this.title = title;
         this.value = value;
     }

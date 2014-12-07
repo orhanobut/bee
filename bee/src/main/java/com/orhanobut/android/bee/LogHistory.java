@@ -17,18 +17,6 @@ class LogHistory implements ContentHolder {
         this.time = time;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
     @Override
     public String getTitle() {
         return time.toString();

@@ -1,6 +1,7 @@
 package com.orhanobut.android.bee;
 
 import android.content.Context;
+import android.widget.CompoundButton;
 
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,12 @@ import java.util.Map;
  */
 public abstract class BeeConfig implements BeeConfigListener {
 
+    private Context context;
+
     @Override
     public void inject(Context context) {
+        this.context = context;
+
         Bee.Builder builder = new Bee.Builder()
                 .with(context)
                 .to(this);
@@ -20,21 +25,26 @@ public abstract class BeeConfig implements BeeConfigListener {
     }
 
     @Override
+    public Context getContext() {
+        return context;
+    }
+
+    @Override
     public void onMenuContentCreated(Bee.Builder builder) {
     }
 
     @Override
-    public void onClose(Context context) {
+    public void onClose() {
 
     }
 
     @Override
-    public void onSave(Context context) {
+    public void onSave() {
 
     }
 
     @Override
-    public void onItemSelected(Context context, int requestCode, String data) {
+    public void onItemSelected(int requestCode, String data) {
 
     }
 
@@ -49,6 +59,11 @@ public abstract class BeeConfig implements BeeConfigListener {
 
     @Override
     public void onClipboardContentCreated(Map<String, String> content) {
+
+    }
+
+    @Override
+    public void onCheckedChanged(int requestCode, CompoundButton buttonView, boolean isChecked) {
 
     }
 }

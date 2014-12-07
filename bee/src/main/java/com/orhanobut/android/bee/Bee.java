@@ -48,6 +48,7 @@ public final class Bee implements View.OnClickListener {
     private ListView logListView;
     private ListView infoListView;
     private ListView clipboardListView;
+    private TextView titleTextView;
 
     private Bee() {
     }
@@ -60,7 +61,7 @@ public final class Bee implements View.OnClickListener {
         ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView();
 
         setBeeButton(rootView);
-        initContainers(rootView);
+        initViews(rootView);
         initListeners(rootView);
         initMenuContent(menuContainer);
         initInfoContent(infoListView);
@@ -74,7 +75,7 @@ public final class Bee implements View.OnClickListener {
 
         List<ContentHolder> list = new ArrayList<>(content.size());
         for (Map.Entry<String, String> entry : content.entrySet()) {
-            list.add(new Info(entry.getKey(), entry.getValue()));
+            list.add(new ContentItem(entry.getKey(), entry.getValue()));
         }
         ContentAdapter adapter = new ContentAdapter(context, list);
         listView.setAdapter(adapter);
@@ -93,7 +94,7 @@ public final class Bee implements View.OnClickListener {
 
         List<ContentHolder> list = new ArrayList<>(infoContent.size());
         for (Map.Entry<String, String> entry : infoContent.entrySet()) {
-            list.add(new Info(entry.getKey(), entry.getValue()));
+            list.add(new ContentItem(entry.getKey(), entry.getValue()));
         }
         ContentAdapter adapter = new ContentAdapter(context, list);
         listView.setAdapter(adapter);
@@ -121,7 +122,7 @@ public final class Bee implements View.OnClickListener {
         return content;
     }
 
-    private void initContainers(ViewGroup rootView) {
+    private void initViews(ViewGroup rootView) {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.container, rootView, true);
         mainContainer = (ViewGroup) rootView.findViewById(R.id.main_container);
@@ -130,6 +131,7 @@ public final class Bee implements View.OnClickListener {
         infoListView = (ListView) mainContainer.findViewById(R.id.info_list);
         clipboardListView = (ListView) mainContainer.findViewById(R.id.clipboard_list);
         menuScrollContainer = (ScrollView) mainContainer.findViewById(R.id.menu_scroll_container);
+        titleTextView = (TextView) mainContainer.findViewById(R.id.container_title);
     }
 
     private void initListeners(View view) {
@@ -141,17 +143,21 @@ public final class Bee implements View.OnClickListener {
         view.findViewById(R.id.clipboard_button).setOnClickListener(this);
     }
 
+    private void setTitle(int resourceId) {
+        titleTextView.setText(resourceId);
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.save_button) {
-            config.onSave(context);
+            config.onSave();
             return;
         }
         if (id == R.id.close_button) {
             mainContainer.setVisibility(View.GONE);
             beeImageView.setVisibility(View.VISIBLE);
-            config.onClose(context);
+            config.onClose();
             return;
         }
         if (id == R.id.menu_button) {
@@ -159,6 +165,7 @@ public final class Bee implements View.OnClickListener {
             logListView.setVisibility(View.GONE);
             infoListView.setVisibility(View.GONE);
             clipboardListView.setVisibility(View.GONE);
+            setTitle(R.string.settings);
             return;
         }
         if (id == R.id.info_button) {
@@ -166,6 +173,7 @@ public final class Bee implements View.OnClickListener {
             logListView.setVisibility(View.GONE);
             infoListView.setVisibility(View.VISIBLE);
             clipboardListView.setVisibility(View.GONE);
+            setTitle(R.string.info);
             return;
         }
         if (id == R.id.log_button) {
@@ -173,6 +181,7 @@ public final class Bee implements View.OnClickListener {
             logListView.setVisibility(View.VISIBLE);
             infoListView.setVisibility(View.GONE);
             clipboardListView.setVisibility(View.GONE);
+            setTitle(R.string.log);
             return;
         }
         if (id == R.id.clipboard_button) {
@@ -180,6 +189,7 @@ public final class Bee implements View.OnClickListener {
             logListView.setVisibility(View.GONE);
             infoListView.setVisibility(View.GONE);
             clipboardListView.setVisibility(View.VISIBLE);
+            setTitle(R.string.clipboard);
         }
     }
 
@@ -313,6 +323,18 @@ public final class Bee implements View.OnClickListener {
                             .from(requestCode)
                             .to(drawer.config)
                             .setList(list)
+                            .setTitle(title)
+                            .build()
+            );
+            return this;
+        }
+
+        public Builder addCheckbox(String title, int requestCode) {
+            drawer.viewHolderList.add(
+                    new CheckboxViewHolder.Builder()
+                            .with(drawer.context)
+                            .from(requestCode)
+                            .to(drawer.config)
                             .setTitle(title)
                             .build()
             );

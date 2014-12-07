@@ -25,7 +25,9 @@ final class SpinnerViewHolder implements ViewHolder, AdapterView.OnItemSelectedL
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String value = (String) parent.getItemAtPosition(position);
-        listener.onItemSelected(context, requestCode, value);
+        listener.onItemSelected(requestCode, value);
+
+        PrefsHelper.setInt(context, requestCode, position);
     }
 
     @Override
@@ -41,7 +43,7 @@ final class SpinnerViewHolder implements ViewHolder, AdapterView.OnItemSelectedL
         );
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
+        spinner.setSelection(PrefsHelper.getInt(context, requestCode));
         return spinner;
     }
 

@@ -1,6 +1,7 @@
 package com.orhanobut.android.bee;
 
 import android.content.Context;
+import android.widget.CompoundButton;
 
 import java.util.List;
 import java.util.Map;
@@ -22,9 +23,13 @@ interface BeeConfigListener {
 
     void onClipboardContentCreated(Map<String, String> content);
 
-    void onClose(Context context);
+    void onClose();
 
-    void onSave(Context context);
+    void onSave();
 
-    void onItemSelected(Context context, int requestCode, String data);
+    void onItemSelected(int requestCode, String data);
+
+    void onCheckedChanged(int requestCode, CompoundButton buttonView, boolean isChecked);
+
+    Context getContext();
 }
