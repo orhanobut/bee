@@ -24,42 +24,57 @@
             android:orientation="vertical">
 
             <ScrollView
+                android:id="@+id/menu_scroll_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:fillViewport="true">
 
-                <LinearLayout
+                <TableLayout
+                    android:id="@+id/menu_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
 
-                    <TableLayout
-                        android:id="@+id/menu_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-
-                    </TableLayout>
-
-                    <TableLayout
-                        android:id="@+id/log_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-
-                    </TableLayout>
-
-                    <TableLayout
-                        android:id="@+id/info_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-                    </TableLayout>
-                </LinearLayout>
+                </TableLayout>
             </ScrollView>
+
+            <ListView
+                android:id="@+id/log_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+            </ListView>
+
+            <ListView
+                android:id="@+id/info_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+            </ListView>
+
+            <ListView
+                android:id="@+id/clipboard_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+            </ListView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/c000"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,6 +101,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/info"/>
+
+                <ImageView
+                    android:id="@+id/clipboard_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/clipboard"/>
 
                 <ImageView
                     android:id="@+id/save_button"

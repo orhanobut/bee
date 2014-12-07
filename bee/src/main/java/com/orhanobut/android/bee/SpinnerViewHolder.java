@@ -10,16 +10,16 @@ import android.widget.Spinner;
 /**
  * @author Orhan Obut
  */
-final class SpinnerHolder implements Holder, AdapterView.OnItemSelectedListener {
+final class SpinnerViewHolder implements ViewHolder, AdapterView.OnItemSelectedListener {
 
     private Context context;
     private String[] list;
     private String title;
     private int requestCode;
-    private BeeListener listener;
+    private BeeConfigListener listener;
     private LayoutInflater layoutInflater;
 
-    private SpinnerHolder() {
+    private SpinnerViewHolder() {
     }
 
     @Override
@@ -36,7 +36,7 @@ final class SpinnerHolder implements Holder, AdapterView.OnItemSelectedListener 
     @Override
     public View getView() {
         Spinner spinner = (Spinner) layoutInflater.inflate(R.layout.spinner, null);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 context, R.layout.simple_spinner_item, list
         );
         spinner.setAdapter(adapter);
@@ -51,7 +51,7 @@ final class SpinnerHolder implements Holder, AdapterView.OnItemSelectedListener 
     }
 
     public static class Builder {
-        private final SpinnerHolder spinnerHolder = new SpinnerHolder();
+        private final SpinnerViewHolder spinnerHolder = new SpinnerViewHolder();
 
         public Builder with(Context context) {
             spinnerHolder.context = context;
@@ -73,12 +73,12 @@ final class SpinnerHolder implements Holder, AdapterView.OnItemSelectedListener 
             return this;
         }
 
-        public Builder to(BeeListener listener) {
+        public Builder to(BeeConfigListener listener) {
             spinnerHolder.listener = listener;
             return this;
         }
 
-        public Holder build() {
+        public ViewHolder build() {
             spinnerHolder.layoutInflater = LayoutInflater.from(spinnerHolder.context);
             return spinnerHolder;
         }

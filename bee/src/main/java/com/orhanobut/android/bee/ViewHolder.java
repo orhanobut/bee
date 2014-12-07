@@ -5,7 +5,7 @@ import android.view.View;
 /**
  * @author Orhan Obut
  */
-interface Holder {
+interface ViewHolder {
 
     View getView();
 

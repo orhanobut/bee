@@ -2,7 +2,11 @@ package com.orhanobut.android.bee;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,11 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Orhan Obut
@@ -27,15 +37,17 @@ public final class Bee implements View.OnClickListener {
     private static final String TAG = Bee.class.getSimpleName();
     private static final int DRAWER_BUTTON_WIDTH = 100;
 
-    private final List<Holder> holderList = new ArrayList<Holder>();
+    private final List<ViewHolder> viewHolderList = new ArrayList<>();
 
     private Context context;
-    private BeeListener listener;
+    private BeeConfigListener config;
     private ViewGroup mainContainer;
     private ImageView beeImageView;
     private ViewGroup menuContainer;
-    private ViewGroup logContainer;
-    private ViewGroup infoContainer;
+    private ScrollView menuScrollContainer;
+    private ListView logListView;
+    private ListView infoListView;
+    private ListView clipboardListView;
 
     private Bee() {
     }
@@ -46,58 +58,134 @@ public final class Bee implements View.OnClickListener {
     public void inject() {
         Activity activity = (Activity) context;
         ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView();
+
+        setBeeButton(rootView);
+        initContainers(rootView);
+        initListeners(rootView);
+        initMenuContent(menuContainer);
+        initInfoContent(infoListView);
+        initLogContent(logListView);
+        initClipboardContent(clipboardListView);
+    }
+
+    private void initClipboardContent(ListView listView) {
+        Map<String, String> content = new LinkedHashMap<>();
+        config.onClipboardContentCreated(content);
+
+        List<ContentHolder> list = new ArrayList<>(content.size());
+        for (Map.Entry<String, String> entry : content.entrySet()) {
+            list.add(new Info(entry.getKey(), entry.getValue()));
+        }
+        ContentAdapter adapter = new ContentAdapter(context, list);
+        listView.setAdapter(adapter);
+    }
+
+    private void initLogContent(ListView listView) {
+        List<ContentHolder> list = BeeLog.getLogHistory();
+        Collections.reverse(list);
+        ContentAdapter adapter = new ContentAdapter(context, list);
+        listView.setAdapter(adapter);
+    }
+
+    private void initInfoContent(ListView listView) {
+        Map<String, String> infoContent = createInfoContent();
+        config.onInfoContentCreated(infoContent);
+
+        List<ContentHolder> list = new ArrayList<>(infoContent.size());
+        for (Map.Entry<String, String> entry : infoContent.entrySet()) {
+            list.add(new Info(entry.getKey(), entry.getValue()));
+        }
+        ContentAdapter adapter = new ContentAdapter(context, list);
+        listView.setAdapter(adapter);
+    }
+
+    private Map<String, String> createInfoContent() {
+        PackageInfo packageInfo;
+        Map<String, String> content = new LinkedHashMap<>();
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d(TAG, "name not found");
+            return content;
+        }
+
+        content.put("Package Name", packageInfo.packageName);
+        content.put("Version Name", packageInfo.versionName);
+        content.put("Version Code", "" + packageInfo.versionCode);
+        content.put("First Install Time", new Date(packageInfo.firstInstallTime).toString());
+        content.put("Update Time", new Date(packageInfo.lastUpdateTime).toString());
+        content.put("Android Version", Build.VERSION.RELEASE);
+        content.put("Display", Build.DISPLAY);
+        content.put("Device Model", Build.MODEL);
+        return content;
+    }
+
+    private void initContainers(ViewGroup rootView) {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.container, rootView, true);
         mainContainer = (ViewGroup) rootView.findViewById(R.id.main_container);
         menuContainer = (ViewGroup) mainContainer.findViewById(R.id.menu_container);
-        logContainer = (ViewGroup) mainContainer.findViewById(R.id.log_container);
-        infoContainer = (ViewGroup) mainContainer.findViewById(R.id.info_container);
-        setBeeImageView(rootView);
-        setView(menuContainer);
+        logListView = (ListView) mainContainer.findViewById(R.id.log_list);
+        infoListView = (ListView) mainContainer.findViewById(R.id.info_list);
+        clipboardListView = (ListView) mainContainer.findViewById(R.id.clipboard_list);
+        menuScrollContainer = (ScrollView) mainContainer.findViewById(R.id.menu_scroll_container);
+    }
 
-        // To not expose to outside
-        rootView.findViewById(R.id.close_button).setOnClickListener(this);
-        rootView.findViewById(R.id.save_button).setOnClickListener(this);
-        rootView.findViewById(R.id.menu_button).setOnClickListener(this);
-        rootView.findViewById(R.id.info_button).setOnClickListener(this);
-        rootView.findViewById(R.id.log_button).setOnClickListener(this);
+    private void initListeners(View view) {
+        view.findViewById(R.id.close_button).setOnClickListener(this);
+        view.findViewById(R.id.save_button).setOnClickListener(this);
+        view.findViewById(R.id.menu_button).setOnClickListener(this);
+        view.findViewById(R.id.info_button).setOnClickListener(this);
+        view.findViewById(R.id.log_button).setOnClickListener(this);
+        view.findViewById(R.id.clipboard_button).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.save_button) {
-            listener.onSave(context);
+            config.onSave(context);
             return;
         }
         if (id == R.id.close_button) {
             mainContainer.setVisibility(View.GONE);
             beeImageView.setVisibility(View.VISIBLE);
-            listener.onClose(context);
+            config.onClose(context);
             return;
         }
         if (id == R.id.menu_button) {
-            menuContainer.setVisibility(View.VISIBLE);
-            logContainer.setVisibility(View.GONE);
-            infoContainer.setVisibility(View.GONE);
+            menuScrollContainer.setVisibility(View.VISIBLE);
+            logListView.setVisibility(View.GONE);
+            infoListView.setVisibility(View.GONE);
+            clipboardListView.setVisibility(View.GONE);
             return;
         }
         if (id == R.id.info_button) {
-            menuContainer.setVisibility(View.GONE);
-            logContainer.setVisibility(View.GONE);
-            infoContainer.setVisibility(View.VISIBLE);
+            menuScrollContainer.setVisibility(View.GONE);
+            logListView.setVisibility(View.GONE);
+            infoListView.setVisibility(View.VISIBLE);
+            clipboardListView.setVisibility(View.GONE);
             return;
         }
         if (id == R.id.log_button) {
-            menuContainer.setVisibility(View.GONE);
-            logContainer.setVisibility(View.VISIBLE);
-            infoContainer.setVisibility(View.GONE);
+            menuScrollContainer.setVisibility(View.GONE);
+            logListView.setVisibility(View.VISIBLE);
+            infoListView.setVisibility(View.GONE);
+            clipboardListView.setVisibility(View.GONE);
+            return;
+        }
+        if (id == R.id.clipboard_button) {
+            menuScrollContainer.setVisibility(View.GONE);
+            logListView.setVisibility(View.GONE);
+            infoListView.setVisibility(View.GONE);
+            clipboardListView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void setView(ViewGroup container) {
-        for (Holder holder : holderList) {
-            createRow(container, holder.getTitle(), holder.getView());
+    private void initMenuContent(ViewGroup container) {
+        for (ViewHolder viewHolder : viewHolderList) {
+            createRow(container, viewHolder.getTitle(), viewHolder.getView());
         }
     }
 
@@ -123,13 +211,13 @@ public final class Bee implements View.OnClickListener {
         container.addView(row);
     }
 
-    private void setBeeImageView(ViewGroup rootView) {
+    private void setBeeButton(ViewGroup rootView) {
         beeImageView = new ImageView(context);
         beeImageView.setImageResource(R.drawable.bee);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 DRAWER_BUTTON_WIDTH,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER_VERTICAL | Gravity.RIGHT
+                Gravity.CENTER_VERTICAL | Gravity.END
         );
         beeImageView.setLayoutParams(params);
         beeImageView.setOnClickListener(null);
@@ -138,7 +226,7 @@ public final class Bee implements View.OnClickListener {
         rootView.addView(beeImageView);
     }
 
-    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener onTouchListener = new View.OnTouchListener() {
 
         final BeeGestureListener gestureListener = new BeeGestureListener();
         final GestureDetector gestureDetector = new GestureDetector(Bee.this.context, gestureListener);
@@ -213,17 +301,17 @@ public final class Bee implements View.OnClickListener {
             return this;
         }
 
-        public Builder to(BeeListener listener) {
-            drawer.listener = listener;
+        public Builder to(BeeConfigListener config) {
+            drawer.config = config;
             return this;
         }
 
         public Builder addSpinner(String title, String[] list, int requestCode) {
-            drawer.holderList.add(
-                    new SpinnerHolder.Builder()
+            drawer.viewHolderList.add(
+                    new SpinnerViewHolder.Builder()
                             .with(drawer.context)
                             .from(requestCode)
-                            .to(drawer.listener)
+                            .to(drawer.config)
                             .setList(list)
                             .setTitle(title)
                             .build()
