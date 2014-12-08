@@ -42,7 +42,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 </pre>
 
-####4. Use BeeLog in order to show log in the bee
+####4. Use BeeLog in order to show the log in the bee
 
 <pre>
 BeeLog.d(TAG,"Some event triggered");
