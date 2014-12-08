@@ -52,7 +52,7 @@ public final class Bee implements View.OnClickListener {
     }
 
     /**
-     * Inject the debug drawer mainContainer and adds all preferences that are set
+     * Inject the bee mainContainer and adds all preferences that are set
      */
     public void inject() {
         Activity activity = (Activity) context;
