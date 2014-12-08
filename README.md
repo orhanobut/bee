@@ -22,7 +22,7 @@ dependencies {
 }
 </pre>
 
-####2. Extend BeeConfig class and customize it with your needs
+####2. Extend BeeConfig class and customize it
 
 <pre>
 public class SampleBeeConfig extends BeeConfig {
