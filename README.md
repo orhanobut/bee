@@ -2,7 +2,15 @@
 Bee is a debug tool for developers and QA to configure the application and see the configured logs, information about the application, clipboard to put some info and see them all the time and settings for the configuration.
 
 ##Setup
-####1. Extend BeeConfig class and add content for the following
+####1. Add dependency
+
+<pre>
+dependencies {
+    compile 'com.github.nr4bt:bee:1.0.0-SNAPSHOT@aar'
+}
+</pre>
+
+####2. Extend BeeConfig class and add content for the following
 
 <pre>
 public class SampleBeeConfig extends BeeConfig {
@@ -76,9 +84,21 @@ public class SampleBeeConfig extends BeeConfig {
 </pre>
 
 
-####2. initialize Bee
+####3. initialize Bee
 In order to activate Bee, you need to pass activity as context. You can either initialize it in base activity and show in all activities or you can just initialize it in specific activities. 
 
 <pre>
-new SampleBeeConfig().inject(this);
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    new SampleBeeConfig().inject(this);
+}
+</pre>
+
+####4. Use BeeLog in order to show log in the bee
+
+<pre>
+BeeLog.d(TAG,"Some event triggered");
 </pre>

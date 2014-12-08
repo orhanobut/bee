@@ -6,3 +6,4 @@
 /build
 *.iml
 *.idea
+credential.properties
