@@ -4,7 +4,7 @@ Bee is a debug tool for developers and QA. You can do the following operations
 <li>Configure the application while the app is running, ie: Changing endpoint</li>
 <li>Show the predefined information such as version number, android version, package name. You can also add some other custom information such as current end point</li>
 <li>You can show some usefull information to remind the user such as username,passwords for test</li>
-<li>You can show the log for the important events, ie: An event is triggered and you want to see whether it is triggered or not/li>
+<li>You can show the log for the important events, ie: An event is triggered and you want to see whether it is triggered or not</li>
 </ul>
 
 <img src='https://github.com/nr4bt/bee/blob/master/images/bee1.png' width='140' height='180'></img>
