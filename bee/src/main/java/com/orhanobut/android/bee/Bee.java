@@ -29,8 +29,6 @@ import java.util.Map;
 
 /**
  * @author Orhan Obut
- *         <p/>
- *         To use debugdrawer, builder must be called and appropriate methods must be called
  */
 public final class Bee implements View.OnClickListener {
 
