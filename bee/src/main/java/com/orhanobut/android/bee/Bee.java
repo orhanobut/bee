@@ -33,22 +33,84 @@ import java.util.Map;
 public final class Bee implements View.OnClickListener {
 
     private static final String TAG = Bee.class.getSimpleName();
+
+    /**
+     * Bee button width
+     */
     private static final int DRAWER_BUTTON_WIDTH = 100;
 
-    private final List<ViewHolder> viewHolderList = new ArrayList<>();
+    /**
+     * Stores all settings views
+     */
+    private final List<ViewHolder> viewHolderList;
 
+    /**
+     * Must be activity context
+     */
     private Context context;
-    private BeeConfigListener config;
-    private ViewGroup mainContainer;
-    private ImageView beeImageView;
-    private ViewGroup menuContainer;
-    private ScrollView menuScrollContainer;
-    private ListView logListView;
-    private ListView infoListView;
-    private ListView clipboardListView;
-    private TextView titleTextView;
 
-    private Bee() {
+    /**
+     * All interaction will be handled by this
+     */
+    private final BeeConfigListener config;
+
+    /**
+     * Top most view that user sees
+     */
+    private final ViewGroup mainContainer;
+
+    /**
+     * The bee button that user can drag and open the menu
+     */
+    private final ImageView beeImageView;
+
+    /**
+     * Settings container
+     */
+    private final ViewGroup menuContainer;
+
+    /**
+     * This is the actual container for the settings
+     */
+    private final ScrollView menuScrollContainer;
+
+    /**
+     * All bee logs will be shown in this list
+     */
+    private final ListView logListView;
+
+    /**
+     * All information will be shown in this list
+     */
+    private final ListView infoListView;
+
+    /**
+     * All clipboard information will be shown in this list
+     */
+    private final ListView clipboardListView;
+
+    /**
+     * This is the title that is shown at top in order to navigate the user
+     */
+    private final TextView titleTextView;
+
+    private Bee(Builder builder) {
+        this.context = builder.context;
+        this.config = builder.config;
+        this.viewHolderList = builder.holderList;
+
+        Activity activity = (Activity) context;
+        ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        inflater.inflate(R.layout.container, rootView, true);
+        mainContainer = (ViewGroup) rootView.findViewById(R.id.main_container);
+        menuContainer = (ViewGroup) mainContainer.findViewById(R.id.menu_container);
+        logListView = (ListView) mainContainer.findViewById(R.id.log_list);
+        infoListView = (ListView) mainContainer.findViewById(R.id.info_list);
+        clipboardListView = (ListView) mainContainer.findViewById(R.id.clipboard_list);
+        menuScrollContainer = (ScrollView) mainContainer.findViewById(R.id.menu_scroll_container);
+        titleTextView = (TextView) mainContainer.findViewById(R.id.container_title);
+        beeImageView = new ImageView(context);
     }
 
     /**
@@ -57,9 +119,7 @@ public final class Bee implements View.OnClickListener {
     public void inject() {
         Activity activity = (Activity) context;
         ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView();
-
         setBeeButton(rootView);
-        initViews(rootView);
         initListeners(rootView);
         initMenuContent(menuContainer);
         initInfoContent(infoListView);
@@ -67,6 +127,11 @@ public final class Bee implements View.OnClickListener {
         initClipboardContent(clipboardListView);
     }
 
+    /**
+     * It is called when the clipboard is created
+     *
+     * @param listView is required
+     */
     private void initClipboardContent(ListView listView) {
         Map<String, String> content = new LinkedHashMap<>();
         config.onClipboardContentCreated(content);
@@ -79,6 +144,10 @@ public final class Bee implements View.OnClickListener {
         listView.setAdapter(adapter);
     }
 
+    /**
+     * It is called when the log content is created
+     * @param listView is required
+     */
     private void initLogContent(ListView listView) {
         List<ContentHolder> list = BeeLog.getLogHistory();
         Collections.reverse(list);
@@ -86,6 +155,10 @@ public final class Bee implements View.OnClickListener {
         listView.setAdapter(adapter);
     }
 
+    /**
+     * It is called when the information content is created
+     * @param listView is required
+     */
     private void initInfoContent(ListView listView) {
         Map<String, String> infoContent = createInfoContent();
         config.onInfoContentCreated(infoContent);
@@ -98,6 +171,10 @@ public final class Bee implements View.OnClickListener {
         listView.setAdapter(adapter);
     }
 
+    /**
+     * It is called when the predefined information is created
+     * @return map which contains some predefined information
+     */
     private Map<String, String> createInfoContent() {
         PackageInfo packageInfo;
         Map<String, String> content = new LinkedHashMap<>();
@@ -120,18 +197,10 @@ public final class Bee implements View.OnClickListener {
         return content;
     }
 
-    private void initViews(ViewGroup rootView) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.container, rootView, true);
-        mainContainer = (ViewGroup) rootView.findViewById(R.id.main_container);
-        menuContainer = (ViewGroup) mainContainer.findViewById(R.id.menu_container);
-        logListView = (ListView) mainContainer.findViewById(R.id.log_list);
-        infoListView = (ListView) mainContainer.findViewById(R.id.info_list);
-        clipboardListView = (ListView) mainContainer.findViewById(R.id.clipboard_list);
-        menuScrollContainer = (ScrollView) mainContainer.findViewById(R.id.menu_scroll_container);
-        titleTextView = (TextView) mainContainer.findViewById(R.id.container_title);
-    }
-
+    /**
+     * It is called in order to create listeners that user can interact with.
+     * @param view is the main container
+     */
     private void initListeners(View view) {
         view.findViewById(R.id.close_button).setOnClickListener(this);
         view.findViewById(R.id.save_button).setOnClickListener(this);
@@ -141,6 +210,10 @@ public final class Bee implements View.OnClickListener {
         view.findViewById(R.id.clipboard_button).setOnClickListener(this);
     }
 
+    /**
+     * This is the title that user sees for each container
+     * @param resourceId
+     */
     private void setTitle(int resourceId) {
         titleTextView.setText(resourceId);
     }
@@ -220,7 +293,6 @@ public final class Bee implements View.OnClickListener {
     }
 
     private void setBeeButton(ViewGroup rootView) {
-        beeImageView = new ImageView(context);
         beeImageView.setImageResource(R.drawable.bee);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 DRAWER_BUTTON_WIDTH,
@@ -237,7 +309,7 @@ public final class Bee implements View.OnClickListener {
     private final View.OnTouchListener onTouchListener = new View.OnTouchListener() {
 
         final BeeGestureListener gestureListener = new BeeGestureListener();
-        final GestureDetector gestureDetector = new GestureDetector(Bee.this.context, gestureListener);
+        final GestureDetector gestureDetector = new GestureDetector(context, gestureListener);
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -259,6 +331,9 @@ public final class Bee implements View.OnClickListener {
         }
     };
 
+    /**
+     * If the user single tap, it will open the bee, if the user moves the bee, nothing will happen but movement
+     */
     private class BeeGestureListener implements GestureDetector.OnGestureListener {
 
         private final String TAG = BeeGestureListener.class.getSimpleName();
@@ -301,25 +376,43 @@ public final class Bee implements View.OnClickListener {
      * with, to and build must be set
      */
     public static class Builder {
-        private final Bee drawer = new Bee();
 
-        //TODO: context check should be done because now we assume it is an Activity, let's think about that
+        private Context context;
+        private BeeConfigListener config;
+        private final List<ViewHolder> holderList = new ArrayList<>();
+
+        //TODO: context check should be done because now we assume it is an Activity
         public Builder with(Context context) {
-            drawer.context = context;
+            if (context == null) {
+                throw new NullPointerException("Context may not be null");
+            }
+            this.context = context;
             return this;
         }
 
         public Builder to(BeeConfigListener config) {
-            drawer.config = config;
+            if (config == null) {
+                throw new NullPointerException("Config may not be null");
+            }
+            this.config = config;
             return this;
         }
 
         public Builder addSpinner(String title, String[] list, int requestCode) {
-            drawer.viewHolderList.add(
+            if (this.context == null) {
+                throw new NullPointerException("Set context first");
+            }
+            if (this.config == null) {
+                throw new NullPointerException("Set config first");
+            }
+            if (list == null || list.length == 0) {
+                throw new IllegalArgumentException("List should not be empty or null");
+            }
+            this.holderList.add(
                     new SpinnerViewHolder.Builder()
-                            .with(drawer.context)
+                            .with(this.context)
                             .from(requestCode)
-                            .to(drawer.config)
+                            .to(this.config)
                             .setList(list)
                             .setTitle(title)
                             .build()
@@ -328,11 +421,17 @@ public final class Bee implements View.OnClickListener {
         }
 
         public Builder addCheckbox(String title, int requestCode) {
-            drawer.viewHolderList.add(
+            if (this.context == null) {
+                throw new NullPointerException("Set context first");
+            }
+            if (this.config == null) {
+                throw new NullPointerException("Set config first");
+            }
+            this.holderList.add(
                     new CheckboxViewHolder.Builder()
-                            .with(drawer.context)
+                            .with(this.context)
                             .from(requestCode)
-                            .to(drawer.config)
+                            .to(this.config)
                             .setTitle(title)
                             .build()
             );
@@ -340,7 +439,7 @@ public final class Bee implements View.OnClickListener {
         }
 
         public Bee build() {
-            return drawer;
+            return new Bee(this);
         }
     }
 }
