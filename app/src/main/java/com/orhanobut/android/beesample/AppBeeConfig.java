@@ -15,10 +15,10 @@ public class AppBeeConfig extends BeeConfig {
     @Override
     public void onMenuContentCreated(Bee.Builder builder) {
         super.onMenuContentCreated(builder);
-        builder.addSpinner("test", new String[]{"asdf"}, 0)
-                .addSpinner("test", new String[]{"asdf"}, 0)
-                .addSpinner("test", new String[]{"asdf"}, 0)
-                .addCheckbox("tesasdf", 2);
+        builder.addSpinner("test", new String[]{"asdf"}, 0);
+        builder.addSpinner("test", new String[]{"asdf"}, 0);
+        builder.addSpinner("test", new String[]{"asdf"}, 0);
+        builder.addCheckbox("tesasdf", 2);
     }
 
     @Override
