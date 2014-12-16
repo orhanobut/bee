@@ -17,6 +17,9 @@ Bee is a debug tool for developers and QA. You can do the following operations
 ####1. Add dependency
 
 <pre>
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
+}
 dependencies {
     compile 'com.github.nr4bt:bee:1.0.0-SNAPSHOT@aar'
 }
