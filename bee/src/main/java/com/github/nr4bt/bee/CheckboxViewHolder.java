@@ -1,10 +1,12 @@
-package com.orhanobut.android.bee;
+package com.github.nr4bt.bee;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+
+import com.orhanobut.android.bee.R;
 
 /**
  * @author Orhan Obut

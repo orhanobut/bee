@@ -1,4 +1,4 @@
-package com.orhanobut.android.bee;
+package com.github.nr4bt.bee;
 
 import android.content.Context;
 import android.widget.CompoundButton;

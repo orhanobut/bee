@@ -2,8 +2,8 @@ package com.orhanobut.android.beesample;
 
 import android.widget.CompoundButton;
 
-import com.orhanobut.android.bee.Bee;
-import com.orhanobut.android.bee.BeeConfig;
+import com.github.nr4bt.bee.Bee;
+import com.github.nr4bt.bee.BeeConfig;
 
 import java.util.Map;
 

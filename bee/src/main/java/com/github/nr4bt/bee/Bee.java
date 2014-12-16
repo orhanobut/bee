@@ -1,4 +1,4 @@
-package com.orhanobut.android.bee;
+package com.github.nr4bt.bee;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.orhanobut.android.bee.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -146,6 +148,7 @@ public final class Bee implements View.OnClickListener {
 
     /**
      * It is called when the log content is created
+     *
      * @param listView is required
      */
     private void initLogContent(ListView listView) {
@@ -157,6 +160,7 @@ public final class Bee implements View.OnClickListener {
 
     /**
      * It is called when the information content is created
+     *
      * @param listView is required
      */
     private void initInfoContent(ListView listView) {
@@ -173,6 +177,7 @@ public final class Bee implements View.OnClickListener {
 
     /**
      * It is called when the predefined information is created
+     *
      * @return map which contains some predefined information
      */
     private Map<String, String> createInfoContent() {
@@ -199,6 +204,7 @@ public final class Bee implements View.OnClickListener {
 
     /**
      * It is called in order to create listeners that user can interact with.
+     *
      * @param view is the main container
      */
     private void initListeners(View view) {
@@ -212,6 +218,7 @@ public final class Bee implements View.OnClickListener {
 
     /**
      * This is the title that user sees for each container
+     *
      * @param resourceId
      */
     private void setTitle(int resourceId) {
