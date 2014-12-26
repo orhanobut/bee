@@ -1,4 +1,4 @@
-package com.github.nr4bt.bee;
+package com.orhanobut.bee;
 
 import android.content.Context;
 import android.view.LayoutInflater;

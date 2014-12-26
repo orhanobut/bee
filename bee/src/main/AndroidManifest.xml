@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.orhanobut.android.bee">
+          package="com.orhanobut.bee">
 
-    <application android:allowBackup="true">
+<application android:allowBackup="true">
 
     </application>
 
