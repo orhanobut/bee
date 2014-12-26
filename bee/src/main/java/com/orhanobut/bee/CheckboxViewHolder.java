@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import com.orhanobut.android.bee.R;
 
 /**
  * @author Orhan Obut

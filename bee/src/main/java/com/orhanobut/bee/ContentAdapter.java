@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.orhanobut.android.bee.R;
-
 import java.util.List;
 
 /**

@@ -20,8 +20,6 @@ import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.orhanobut.android.bee.R;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
