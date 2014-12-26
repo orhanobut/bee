@@ -7,3 +7,5 @@
 *.iml
 *.idea
 credential.properties
+app/build
+bee/build
