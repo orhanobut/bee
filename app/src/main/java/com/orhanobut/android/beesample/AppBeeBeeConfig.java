@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author Orhan Obut
  */
-public class AppBeeConfig extends BeeConfig {
+public class AppBeeBeeConfig extends BeeConfig {
 
     @Override
     public void onMenuContentCreated(Bee.Builder builder) {
@@ -18,7 +18,17 @@ public class AppBeeConfig extends BeeConfig {
         builder.addSpinner("test", new String[]{"asdf"}, 0);
         builder.addSpinner("test", new String[]{"asdf"}, 0);
         builder.addSpinner("test", new String[]{"asdf"}, 0);
+        builder.addSpinner("test", new String[]{"asdf"}, 0);
+        builder.addSpinner("test", new String[]{"asdf"}, 0);
+        builder.addSpinner("test", new String[]{"asdf"}, 0);
         builder.addCheckbox("tesasdf", 2);
+        builder.addButton("test", 3);
+        builder.addButton("test", 3);
+        builder.addButton("test", 3);
+        builder.addButton("test", 3);
+        builder.addCheckbox("tesasdf", 2);
+        builder.addCheckbox("tesasdf", 2);
+
     }
 
     @Override
@@ -41,6 +51,11 @@ public class AppBeeConfig extends BeeConfig {
     @Override
     public void onCheckedChanged(int requestCode, CompoundButton buttonView, boolean isChecked) {
         super.onCheckedChanged(requestCode, buttonView, isChecked);
+    }
+
+    @Override
+    public void onClickListener(int requestCode) {
+
     }
 
     @Override

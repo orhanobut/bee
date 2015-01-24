@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 /**
  * @author Orhan Obut
  */
-final class PrefsHelper {
+final class PrefHelper {
 
     private static final String KEY_PREFS = "BeeConfigPrefs";
 
@@ -27,8 +27,7 @@ final class PrefsHelper {
     }
 
     static SharedPreferences getPrefs(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(KEY_PREFS, Context.MODE_PRIVATE);
-        return prefs;
+        return context.getSharedPreferences(KEY_PREFS, Context.MODE_PRIVATE);
     }
 
     static SharedPreferences.Editor getEditor(Context context) {

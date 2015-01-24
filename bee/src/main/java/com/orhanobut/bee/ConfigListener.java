@@ -11,7 +11,7 @@ import java.util.Map;
  *         <p/>
  *         For the future, all operations should be added here in order to take action
  */
-interface BeeConfigListener {
+interface ConfigListener {
 
     void inject(Context context);
 
@@ -30,6 +30,8 @@ interface BeeConfigListener {
     void onItemSelected(int requestCode, String data);
 
     void onCheckedChanged(int requestCode, CompoundButton buttonView, boolean isChecked);
+
+    void onClickListener(int requestCode);
 
     Context getContext();
 }

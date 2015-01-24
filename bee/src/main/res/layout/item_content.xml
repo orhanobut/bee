@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#807F7E"
         android:textSize="12sp"
         tools:text="asdfadsf"/>
 

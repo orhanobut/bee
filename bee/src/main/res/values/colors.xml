@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <drawable name="text_bg">#fff</drawable>
+    <drawable name="text_bg_pressed">#bebebe</drawable>
+    <drawable name="list_divider">#CCCCCC</drawable>
 </resources>

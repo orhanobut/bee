@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author Orhan Obut
  */
-public abstract class BeeConfig implements BeeConfigListener {
+public abstract class BeeConfig implements ConfigListener {
 
     private Context context;
 
@@ -64,6 +64,11 @@ public abstract class BeeConfig implements BeeConfigListener {
 
     @Override
     public void onCheckedChanged(int requestCode, CompoundButton buttonView, boolean isChecked) {
+
+    }
+
+    @Override
+    public void onClickListener(int requestCode) {
 
     }
 }

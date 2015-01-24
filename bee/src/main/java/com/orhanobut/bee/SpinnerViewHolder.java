@@ -13,14 +13,26 @@ import android.widget.Spinner;
  */
 final class SpinnerViewHolder implements ViewHolder, AdapterView.OnItemSelectedListener {
 
-    private Context context;
-    private String[] list;
-    private String title;
-    private int requestCode;
-    private BeeConfigListener listener;
-    private LayoutInflater layoutInflater;
+    private final Context context;
+    private final String title;
+    private final int requestCode;
+    private final ConfigListener listener;
+    private final Spinner spinner;
 
-    private SpinnerViewHolder() {
+    SpinnerViewHolder(Context context, String title, String[] list, int requestCode, ConfigListener listener) {
+        this.context = context;
+        this.title = title;
+        this.requestCode = requestCode;
+        this.listener = listener;
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        spinner = (Spinner) inflater.inflate(R.layout.spinner, null);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                context, R.layout.simple_spinner_item, list
+        );
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        spinner.setSelection(PrefHelper.getInt(context, requestCode));
     }
 
     @Override
@@ -28,7 +40,7 @@ final class SpinnerViewHolder implements ViewHolder, AdapterView.OnItemSelectedL
         String value = (String) parent.getItemAtPosition(position);
         listener.onItemSelected(requestCode, value);
 
-        PrefsHelper.setInt(context, requestCode, position);
+        PrefHelper.setInt(context, requestCode, position);
     }
 
     @Override
@@ -38,13 +50,6 @@ final class SpinnerViewHolder implements ViewHolder, AdapterView.OnItemSelectedL
 
     @Override
     public View getView() {
-        Spinner spinner = (Spinner) layoutInflater.inflate(R.layout.spinner, null);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                context, R.layout.simple_spinner_item, list
-        );
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-        spinner.setSelection(PrefsHelper.getInt(context, requestCode));
         return spinner;
     }
 
@@ -53,37 +58,18 @@ final class SpinnerViewHolder implements ViewHolder, AdapterView.OnItemSelectedL
         return title;
     }
 
-    public static class Builder {
-        private final SpinnerViewHolder spinnerHolder = new SpinnerViewHolder();
+    public static class Builder extends ViewBuilder<Builder> {
 
-        public Builder with(Context context) {
-            spinnerHolder.context = context;
-            return this;
-        }
-
-        public Builder setTitle(String title) {
-            spinnerHolder.title = title;
-            return this;
-        }
+        private String[] list;
 
         public Builder setList(String[] list) {
-            spinnerHolder.list = list;
+            this.list = list;
             return this;
         }
 
-        public Builder from(int requestCode) {
-            spinnerHolder.requestCode = requestCode;
-            return this;
-        }
-
-        public Builder to(BeeConfigListener listener) {
-            spinnerHolder.listener = listener;
-            return this;
-        }
-
+        @Override
         public ViewHolder build() {
-            spinnerHolder.layoutInflater = LayoutInflater.from(spinnerHolder.context);
-            return spinnerHolder;
+            return new SpinnerViewHolder(context, title, list, requestCode, listener);
         }
     }
 }

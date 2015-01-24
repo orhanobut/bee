@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -16,9 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +33,7 @@ public final class Bee implements View.OnClickListener {
     /**
      * Bee button width
      */
-    private static final int DRAWER_BUTTON_WIDTH = 100;
+    private static final int BEE_ICON_SIZE = 100;
 
     /**
      * Stores all settings views
@@ -52,7 +48,7 @@ public final class Bee implements View.OnClickListener {
     /**
      * All interaction will be handled by this
      */
-    private final BeeConfigListener config;
+    private final ConfigListener config;
 
     /**
      * Top most view that user sees
@@ -65,14 +61,9 @@ public final class Bee implements View.OnClickListener {
     private final ImageView beeImageView;
 
     /**
-     * Settings container
+     * All settings will be shown in this list
      */
-    private final ViewGroup menuContainer;
-
-    /**
-     * This is the actual container for the settings
-     */
-    private final ScrollView menuScrollContainer;
+    private final ListView settingsListView;
 
     /**
      * All bee logs will be shown in this list
@@ -89,11 +80,6 @@ public final class Bee implements View.OnClickListener {
      */
     private final ListView clipboardListView;
 
-    /**
-     * This is the title that is shown at top in order to navigate the user
-     */
-    private final TextView titleTextView;
-
     private Bee(Builder builder) {
         this.context = builder.context;
         this.config = builder.config;
@@ -104,12 +90,10 @@ public final class Bee implements View.OnClickListener {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.container, rootView, true);
         mainContainer = (ViewGroup) rootView.findViewById(R.id.main_container);
-        menuContainer = (ViewGroup) mainContainer.findViewById(R.id.menu_container);
+        settingsListView = (ListView) mainContainer.findViewById(R.id.settings_list);
         logListView = (ListView) mainContainer.findViewById(R.id.log_list);
         infoListView = (ListView) mainContainer.findViewById(R.id.info_list);
         clipboardListView = (ListView) mainContainer.findViewById(R.id.clipboard_list);
-        menuScrollContainer = (ScrollView) mainContainer.findViewById(R.id.menu_scroll_container);
-        titleTextView = (TextView) mainContainer.findViewById(R.id.container_title);
         beeImageView = new ImageView(context);
     }
 
@@ -121,7 +105,7 @@ public final class Bee implements View.OnClickListener {
         ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView();
         setBeeButton(rootView);
         initListeners(rootView);
-        initMenuContent(menuContainer);
+        initSettingsContent(viewHolderList);
         initInfoContent(infoListView);
         initLogContent(logListView);
         initClipboardContent(clipboardListView);
@@ -206,101 +190,65 @@ public final class Bee implements View.OnClickListener {
      * @param view is the main container
      */
     private void initListeners(View view) {
-        view.findViewById(R.id.close_button).setOnClickListener(this);
-        view.findViewById(R.id.save_button).setOnClickListener(this);
-        view.findViewById(R.id.menu_button).setOnClickListener(this);
-        view.findViewById(R.id.info_button).setOnClickListener(this);
-        view.findViewById(R.id.log_button).setOnClickListener(this);
-        view.findViewById(R.id.clipboard_button).setOnClickListener(this);
-    }
-
-    /**
-     * This is the title that user sees for each container
-     *
-     * @param resourceId
-     */
-    private void setTitle(int resourceId) {
-        titleTextView.setText(resourceId);
+        view.findViewById(R.id.close).setOnClickListener(this);
+        view.findViewById(R.id.save).setOnClickListener(this);
+        view.findViewById(R.id.settings).setOnClickListener(this);
+        view.findViewById(R.id.info).setOnClickListener(this);
+        view.findViewById(R.id.log).setOnClickListener(this);
+        view.findViewById(R.id.clipboard).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.save_button) {
+        if (id == R.id.save) {
             config.onSave();
             return;
         }
-        if (id == R.id.close_button) {
+        if (id == R.id.close) {
             mainContainer.setVisibility(View.GONE);
             beeImageView.setVisibility(View.VISIBLE);
             config.onClose();
             return;
         }
-        if (id == R.id.menu_button) {
-            menuScrollContainer.setVisibility(View.VISIBLE);
+        if (id == R.id.settings) {
+            settingsListView.setVisibility(View.VISIBLE);
             logListView.setVisibility(View.GONE);
             infoListView.setVisibility(View.GONE);
             clipboardListView.setVisibility(View.GONE);
-            setTitle(R.string.settings);
             return;
         }
-        if (id == R.id.info_button) {
-            menuScrollContainer.setVisibility(View.GONE);
+        if (id == R.id.info) {
+            settingsListView.setVisibility(View.GONE);
             logListView.setVisibility(View.GONE);
             infoListView.setVisibility(View.VISIBLE);
             clipboardListView.setVisibility(View.GONE);
-            setTitle(R.string.info);
             return;
         }
-        if (id == R.id.log_button) {
-            menuScrollContainer.setVisibility(View.GONE);
+        if (id == R.id.log) {
+            settingsListView.setVisibility(View.GONE);
             logListView.setVisibility(View.VISIBLE);
             infoListView.setVisibility(View.GONE);
             clipboardListView.setVisibility(View.GONE);
-            setTitle(R.string.log);
             return;
         }
-        if (id == R.id.clipboard_button) {
-            menuScrollContainer.setVisibility(View.GONE);
+        if (id == R.id.clipboard) {
+            settingsListView.setVisibility(View.GONE);
             logListView.setVisibility(View.GONE);
             infoListView.setVisibility(View.GONE);
             clipboardListView.setVisibility(View.VISIBLE);
-            setTitle(R.string.clipboard);
         }
     }
 
-    private void initMenuContent(ViewGroup container) {
-        for (ViewHolder viewHolder : viewHolderList) {
-            createRow(container, viewHolder.getTitle(), viewHolder.getView());
-        }
-    }
-
-    /**
-     * Creates a row for the mainContainer
-     *
-     * @param container Parent view group
-     * @param title     to show in drawer
-     * @param view      to add next to title
-     */
-    private void createRow(ViewGroup container, String title, View view) {
-        TableRow.LayoutParams params = new TableRow.LayoutParams(
-                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1
-        );
-        TableRow row = new TableRow(context);
-        TextView textView = new TextView(context);
-        textView.setLayoutParams(params);
-        textView.setText(title);
-        textView.setTextColor(Color.BLACK);
-        view.setLayoutParams(params);
-        row.addView(textView);
-        row.addView(view);
-        container.addView(row);
+    private void initSettingsContent(List<ViewHolder> list) {
+        SettingsAdapter adapter = new SettingsAdapter(context, list);
+        settingsListView.setAdapter(adapter);
     }
 
     private void setBeeButton(ViewGroup rootView) {
         beeImageView.setImageResource(R.drawable.bee);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                DRAWER_BUTTON_WIDTH,
+                BEE_ICON_SIZE,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER_VERTICAL | Gravity.END
         );
@@ -325,6 +273,14 @@ public final class Bee implements View.OnClickListener {
                 case MotionEvent.ACTION_MOVE:
                     int x = (int) event.getRawX();
                     int y = (int) event.getRawY();
+
+                    if (x < 0) {
+                        x = BEE_ICON_SIZE;
+                    }
+                    if (y < 0) {
+                        y = BEE_ICON_SIZE;
+                    }
+
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) v.getLayoutParams();
                     params.topMargin = y - v.getHeight() / 2;
                     params.leftMargin = x - v.getWidth() / 2;
@@ -334,14 +290,13 @@ public final class Bee implements View.OnClickListener {
             }
             return false;
         }
+
     };
 
     /**
      * If the user single tap, it will open the bee, if the user moves the bee, nothing will happen but movement
      */
     private class BeeGestureListener implements GestureDetector.OnGestureListener {
-
-        private final String TAG = BeeGestureListener.class.getSimpleName();
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -383,7 +338,7 @@ public final class Bee implements View.OnClickListener {
     public static class Builder {
 
         private Context context;
-        private BeeConfigListener config;
+        private ConfigListener config;
         private final List<ViewHolder> holderList = new ArrayList<>();
 
         //TODO: context check should be done because now we assume it is an Activity
@@ -395,7 +350,7 @@ public final class Bee implements View.OnClickListener {
             return this;
         }
 
-        public Builder to(BeeConfigListener config) {
+        public Builder to(ConfigListener config) {
             if (config == null) {
                 throw new NullPointerException("Config may not be null");
             }
@@ -434,6 +389,24 @@ public final class Bee implements View.OnClickListener {
             }
             this.holderList.add(
                     new CheckboxViewHolder.Builder()
+                            .with(this.context)
+                            .from(requestCode)
+                            .to(this.config)
+                            .setTitle(title)
+                            .build()
+            );
+            return this;
+        }
+
+        public Builder addButton(String title, int requestCode) {
+            if (this.context == null) {
+                throw new NullPointerException("Set context first");
+            }
+            if (this.config == null) {
+                throw new NullPointerException("Set config first");
+            }
+            this.holderList.add(
+                    new ButtonViewHolder.Builder()
                             .with(this.context)
                             .from(requestCode)
                             .to(this.config)
