@@ -1,7 +1,6 @@
 package com.orhanobut.bee;
 
 import android.content.Context;
-import android.widget.CompoundButton;
 
 import java.util.List;
 import java.util.Map;
@@ -14,23 +13,13 @@ public abstract class BeeConfig implements ConfigListener {
     private Context context;
 
     @Override
-    public void inject(Context context) {
+    public void setContext(Context context) {
         this.context = context;
-
-        Bee.Builder builder = new Bee.Builder()
-                .with(context)
-                .to(this);
-        onMenuContentCreated(builder);
-        builder.build().inject();
     }
 
     @Override
     public Context getContext() {
         return context;
-    }
-
-    @Override
-    public void onMenuContentCreated(Bee.Builder builder) {
     }
 
     @Override
@@ -40,11 +29,6 @@ public abstract class BeeConfig implements ConfigListener {
 
     @Override
     public void onSave() {
-
-    }
-
-    @Override
-    public void onItemSelected(int requestCode, String data) {
 
     }
 
@@ -62,13 +46,4 @@ public abstract class BeeConfig implements ConfigListener {
 
     }
 
-    @Override
-    public void onCheckedChanged(int requestCode, CompoundButton buttonView, boolean isChecked) {
-
-    }
-
-    @Override
-    public void onClickListener(int requestCode) {
-
-    }
 }

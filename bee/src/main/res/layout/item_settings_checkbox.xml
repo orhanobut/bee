@@ -10,16 +10,17 @@
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#2A76AD"
-        tools:text="Title"
+        android:layout_weight="2"
         android:padding="8dp"
+        android:textColor="#2A76AD"
         android:textSize="14sp"
-        android:layout_weight="2"/>
+        tools:text="Title"/>
 
-    <FrameLayout
-        android:id="@+id/item_container"
+    <CheckBox
+        android:id="@+id/checkbox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="3"/>
+        android:layout_weight="3"
+        android:popupBackground="@android:color/darker_gray"/>
 
 </LinearLayout>

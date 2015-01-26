@@ -3,5 +3,9 @@
 
     <drawable name="text_bg">#fff</drawable>
     <drawable name="text_bg_pressed">#bebebe</drawable>
-    <drawable name="list_divider">#CCCCCC</drawable>
+    <drawable name="list_divider">#E8E8E8</drawable>
+    <drawable name="bee_color">#FBD515</drawable>
+
+    <color name="bee_color">#FBD515</color>
+    <color name="bee_color2">#FFCE00</color>
 </resources>

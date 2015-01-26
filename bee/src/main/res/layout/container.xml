@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="25dp"
     android:paddingBottom="56dp"
+    android:paddingTop="25dp"
     android:visibility="gone"
     tools:visibility="visible">
 
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="#40000000"
         android:orientation="horizontal"
+        android:paddingBottom="8dp"
         android:paddingTop="8dp">
 
         <View
@@ -27,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:src="@drawable/menu"/>
+            android:src="@drawable/settings"/>
 
         <ImageView
             android:id="@+id/log"
@@ -61,7 +62,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_bg"
+            android:background="@drawable/rectangle_rounded_bg"
             android:orientation="vertical">
 
             <ListView
@@ -69,9 +70,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="10dp"
+                android:layout_weight="1"
                 android:divider="@drawable/list_divider"
                 android:dividerHeight="1dp"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
             </ListView>
@@ -125,7 +126,6 @@
                     android:background="@drawable/selector_white_gray"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:src="@drawable/save"
                     android:text="@string/debug_close"
                     android:textColor="@android:color/black"/>
 
@@ -142,7 +142,6 @@
                     android:background="@drawable/selector_white_gray"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:src="@drawable/save"
                     android:text="@string/debug_save"
                     android:textColor="@android:color/black"/>
 

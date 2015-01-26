@@ -14,8 +14,8 @@ import java.util.List;
  */
 class ContentAdapter extends BaseAdapter {
 
-    private final LayoutInflater layoutInflater;
     private final List<ContentHolder> list;
+    private final LayoutInflater layoutInflater;
 
     public ContentAdapter(Context context, List<ContentHolder> list) {
         this.layoutInflater = LayoutInflater.from(context);

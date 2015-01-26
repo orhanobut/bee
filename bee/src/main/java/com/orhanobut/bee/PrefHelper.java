@@ -10,20 +10,20 @@ final class PrefHelper {
 
     private static final String KEY_PREFS = "BeeConfigPrefs";
 
-    static void setBoolean(Context context, int requestCode, boolean value) {
-        getEditor(context).putBoolean(getKey(requestCode), value).commit();
+    static void setBoolean(Context context, String key, boolean value) {
+        getEditor(context).putBoolean(key, value).commit();
     }
 
-    static boolean getBoolean(Context context, int requestCode) {
-        return getPrefs(context).getBoolean(getKey(requestCode), false);
+    static boolean getBoolean(Context context, String key) {
+        return getPrefs(context).getBoolean(key, false);
     }
 
-    static void setInt(Context context, int requestCode, int value) {
-        getEditor(context).putInt(getKey(requestCode), value).commit();
+    static void setInt(Context context, String key, int value) {
+        getEditor(context).putInt(key, value).commit();
     }
 
-    static int getInt(Context context, int requestCode) {
-        return getPrefs(context).getInt(getKey(requestCode), 0);
+    static int getInt(Context context, String key) {
+        return getPrefs(context).getInt(key, 0);
     }
 
     static SharedPreferences getPrefs(Context context) {
@@ -35,7 +35,4 @@ final class PrefHelper {
         return prefs.edit();
     }
 
-    static String getKey(int requestCode) {
-        return KEY_PREFS + requestCode;
-    }
 }

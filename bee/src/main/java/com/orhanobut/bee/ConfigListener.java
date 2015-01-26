@@ -1,7 +1,6 @@
 package com.orhanobut.bee;
 
 import android.content.Context;
-import android.widget.CompoundButton;
 
 import java.util.List;
 import java.util.Map;
@@ -13,10 +12,6 @@ import java.util.Map;
  */
 interface ConfigListener {
 
-    void inject(Context context);
-
-    void onMenuContentCreated(Bee.Builder builder);
-
     void onInfoContentCreated(Map<String, String> content);
 
     void onLogContentCreated(List<String> list);
@@ -27,11 +22,7 @@ interface ConfigListener {
 
     void onSave();
 
-    void onItemSelected(int requestCode, String data);
-
-    void onCheckedChanged(int requestCode, CompoundButton buttonView, boolean isChecked);
-
-    void onClickListener(int requestCode);
-
     Context getContext();
+
+    void setContext(Context context);
 }
