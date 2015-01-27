@@ -7,11 +7,11 @@ Debug/QA tool
 - Show some usefull information to remind the user such as username, passwords for test
 - Show the log for the important events, ie: An event is triggered and you want to see whether it is triggered or not
 
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee0.png' width='120' height='180'></img>
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee1.png' width='120' height='180'></img>
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee2.png' width='120' height='180'></img>
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee3.png' width='120' height='180'></img>
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee4.png' width='120' height='180'></img>
+<img src='https://github.com/nr4bt/bee/blob/master/images/bee0.png' width='140' height='200'></img>
+<img src='https://github.com/nr4bt/bee/blob/master/images/bee1.png' width='140' height='200'></img>
+<img src='https://github.com/nr4bt/bee/blob/master/images/bee2.png' width='140' height='200'></img>
+<img src='https://github.com/nr4bt/bee/blob/master/images/bee3.png' width='140' height='200'></img>
+<img src='https://github.com/nr4bt/bee/blob/master/images/bee4.png' width='140' height='200'></img>
 
 #### Gradle
 
