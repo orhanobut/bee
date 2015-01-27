@@ -100,7 +100,7 @@ public class SampleBeeConfig extends BeeConfig {
 }
 ```
 
-####3. initialize Bee
+#### Start Bee
 In order to activate Bee, you need to pass activity as context. You can either initialize it in base activity and show in all activities or you can just initialize it in specific activities. 
 
 ```java
@@ -112,15 +112,19 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
-####4. Use BeeLog in order to show the log in the bee
+#### Use BeeLog in order to show the log in the bee
 
 ```java
 BeeLog.d(TAG,"Some event triggered");
 ```
 
+#### More
+
+- Long click to a list item will copy the value to the clipboard.
+
 #### License 
 <pre>
-Copyright 2014 Orhan Obut
+Copyright 2015 Orhan Obut
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
