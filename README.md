@@ -1,5 +1,5 @@
 #Bee
-Debug/QA tool
+Bee is a QA/Debug tool that works like a widget in any application. The idea is to add some features/options to developer and QA to configure the app, get some information. Bee works like an extra view when the user presses the bee icon
 
 - Configure the application on the fly
 - Add button, spinner and checkbox options regarding to your needs
