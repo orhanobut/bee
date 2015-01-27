@@ -7,6 +7,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
+ * It is used to add checkbox to the settings menu
+ *
  * @author Orhan Obut
  */
 @Target(METHOD)

@@ -39,20 +39,63 @@ public class AppBeeConfig extends BeeConfig {
         super.onClose();
     }
 
-    @Button("Button")
-    public void onTestClicked() {
+    @Title("Test")
+    @Button
+    public void onATestClicked() {
+        Log.d(TAG, "onTestClicked");
+    }
+
+    @Title("Test")
+    @Button
+    public void onTestClicked2() {
+        Log.d(TAG, "onTestClicked");
+    }
+
+    @Title("Test")
+    @Button
+    public void onTestClicked3() {
         Log.d(TAG, "onTestClicked");
     }
 
     @Title("Checkbox")
     @CheckBox
-    public void onTest2Clicked(boolean isChecked) {
+    public void onCest2Clicked(boolean isChecked) {
+        Log.d(TAG, "onTest2Clicked");
+    }
+
+    @Title("Test")
+    @Spinner({"content", "content2"})
+    public void onSpinnerClicked2(String selectedValue) {
+        Log.d(TAG, "onSpinnerClicked");
+    }
+
+    @Title("Checkbox")
+    @CheckBox
+    public void onTest2Clicked2(boolean isChecked) {
         Log.d(TAG, "onTest2Clicked");
     }
 
     @Title("Test")
     @Spinner({"content", "content2"})
     public void onSpinnerClicked(String selectedValue) {
+        Log.d(TAG, "onSpinnerClicked");
+    }
+
+    @Title("Test")
+    @Spinner({"content", "content2"})
+    public void onBpinnerClicked24(String selectedValue) {
+        Log.d(TAG, "onSpinnerClicked");
+    }
+
+    @Title("Checkbox")
+    @CheckBox
+    public void onAest2Clicked24(boolean isChecked) {
+        Log.d(TAG, "onTest2Clicked");
+    }
+
+    @Title("Test")
+    @Spinner({"content", "content2"})
+    public void onSpinnerClicked4(String selectedValue) {
         Log.d(TAG, "onSpinnerClicked");
     }
 

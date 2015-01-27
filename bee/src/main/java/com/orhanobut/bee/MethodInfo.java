@@ -1,7 +1,5 @@
 package com.orhanobut.bee;
 
-import android.content.Context;
-
 import com.orhanobut.bee.widgets.Button;
 import com.orhanobut.bee.widgets.CheckBox;
 import com.orhanobut.bee.widgets.Spinner;
@@ -17,7 +15,6 @@ class MethodInfo {
 
     static final int INVALID = -1;
 
-    private final Context context;
     private final Method method;
 
     private int viewType = INVALID;
@@ -25,16 +22,15 @@ class MethodInfo {
     private String title;
     private Object instance;
 
-    private MethodInfo(Context context, Method method, Object instance) {
-        this.context = context;
+    private MethodInfo(Method method, Object instance) {
         this.method = method;
         this.instance = instance;
 
         parseMethodAnnotations();
     }
 
-    static MethodInfo newInstance(Context context, Method method, Object instance) {
-        return new MethodInfo(context, method, instance);
+    static MethodInfo newInstance(Method method, Object instance) {
+        return new MethodInfo(method, instance);
     }
 
     private void parseMethodAnnotations() {
@@ -48,7 +44,6 @@ class MethodInfo {
             }
 
             if (annotationType == Button.class) {
-                data = ((Button) annotation).value();
                 viewType = ViewType.BUTTON;
                 continue;
             }

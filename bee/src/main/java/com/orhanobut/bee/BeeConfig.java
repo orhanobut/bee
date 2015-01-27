@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * This class should be used to provide bridge between bee and the app.
+ *
  * @author Orhan Obut
  */
 public abstract class BeeConfig implements ConfigListener {

@@ -16,11 +16,19 @@
         android:textSize="14sp"
         tools:text="Title"/>
 
-    <CheckBox
-        android:id="@+id/checkbox"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:popupBackground="@android:color/darker_gray"/>
+        android:gravity="right"
+        android:paddingRight="4dp">
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_checkbox"
+            android:popupBackground="@android:color/darker_gray"/>
+    </LinearLayout>
 
 </LinearLayout>

@@ -66,52 +66,22 @@
             android:orientation="vertical">
 
             <ListView
-                android:id="@+id/settings_list"
+                android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:divider="@drawable/list_divider"
-                android:dividerHeight="1dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10dp"
+                android:scrollbars="none"
                 android:orientation="vertical">
 
-            </ListView>
-
-            <ListView
-                android:id="@+id/log_list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-            </ListView>
-
-            <ListView
-                android:id="@+id/info_list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="gone">
-            </ListView>
-
-            <ListView
-                android:id="@+id/clipboard_list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="gone">
             </ListView>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"/>
+                android:background="@drawable/bee_color"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -132,7 +102,7 @@
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#bdbdbd"/>
+                    android:background="@drawable/bee_color"/>
 
                 <TextView
                     android:id="@+id/save"

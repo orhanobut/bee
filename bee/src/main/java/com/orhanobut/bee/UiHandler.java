@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -12,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,9 +30,9 @@ import java.util.Map;
 /**
  * @author Orhan Obut
  */
-final class BeeHelper implements View.OnClickListener {
+final class UiHandler implements View.OnClickListener {
 
-    private static final String TAG = BeeHelper.class.getSimpleName();
+    private static final String TAG = UiHandler.class.getSimpleName();
 
     /**
      * Stores all settings views
@@ -54,26 +57,11 @@ final class BeeHelper implements View.OnClickListener {
     /**
      * All settings will be shown in this list
      */
-    private final ListView settingsListView;
-
-    /**
-     * All bee logs will be shown in this list
-     */
-    private final ListView logListView;
-
-    /**
-     * All information will be shown in this list
-     */
-    private final ListView infoListView;
-
-    /**
-     * All clipboard information will be shown in this list
-     */
-    private final ListView clipboardListView;
+    private final ListView listView;
 
     private final ConfigListener configListener;
 
-    BeeHelper(Context context, List<MethodInfo> list, ConfigListener listener) {
+    UiHandler(Context context, List<MethodInfo> list, ConfigListener listener) {
         this.context = context;
         this.methodInfoList = list;
         this.configListener = listener;
@@ -83,10 +71,7 @@ final class BeeHelper implements View.OnClickListener {
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.container, rootView, true);
         mainContainer = (ViewGroup) rootView.findViewById(R.id.main_container);
-        settingsListView = (ListView) mainContainer.findViewById(R.id.settings_list);
-        logListView = (ListView) mainContainer.findViewById(R.id.log_list);
-        infoListView = (ListView) mainContainer.findViewById(R.id.info_list);
-        clipboardListView = (ListView) mainContainer.findViewById(R.id.clipboard_list);
+        listView = (ListView) mainContainer.findViewById(R.id.list);
         beeImageView = new ImageView(context);
     }
 
@@ -99,23 +84,16 @@ final class BeeHelper implements View.OnClickListener {
         setBeeButton(rootView);
         initListeners(rootView);
         initSettingsContent(methodInfoList);
-        initInfoContent(infoListView);
-        initLogContent(logListView);
-        initClipboardContent(clipboardListView);
     }
 
     void initSettingsContent(List<MethodInfo> list) {
         BaseAdapter adapter = SettingsAdapter.newInstance(context, list);
-        settingsListView.setAdapter(adapter);
+        listView.setAdapter(adapter);
     }
 
-    /**
-     * It is called when the clipboard is created
-     *
-     * @param listView is required
-     */
-    private void initClipboardContent(ListView listView) {
-        Map<String, String> content = new LinkedHashMap<>();
+    @SuppressWarnings("deprecated")
+    private void initClipboardContent() {
+        final Map<String, String> content = new LinkedHashMap<>();
         configListener.onClipboardContentCreated(content);
 
         List<ContentHolder> list = new ArrayList<>(content.size());
@@ -124,26 +102,31 @@ final class BeeHelper implements View.OnClickListener {
         }
         ContentAdapter adapter = new ContentAdapter(context, list);
         listView.setAdapter(adapter);
+
+        final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ContentHolder contentHolder = (ContentHolder) parent.getItemAtPosition(position);
+                clipboard.setText(contentHolder.getValue());
+                showToast(contentHolder.getValue() + " is copied to clipboard");
+                return true;
+            }
+        });
     }
 
-    /**
-     * It is called when the log content is created
-     *
-     * @param listView is required
-     */
-    private void initLogContent(ListView listView) {
+    private void showToast(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void initLogContent() {
         List<ContentHolder> list = BeeLog.getLogHistory();
         Collections.reverse(list);
         ContentAdapter adapter = new ContentAdapter(context, list);
         listView.setAdapter(adapter);
     }
 
-    /**
-     * It is called when the information content is created
-     *
-     * @param listView is required
-     */
-    private void initInfoContent(ListView listView) {
+    private void initInfoContent() {
         Map<String, String> infoContent = createInfoContent();
         configListener.onInfoContentCreated(infoContent);
 
@@ -210,31 +193,19 @@ final class BeeHelper implements View.OnClickListener {
             return;
         }
         if (id == R.id.settings) {
-            settingsListView.setVisibility(View.VISIBLE);
-            logListView.setVisibility(View.GONE);
-            infoListView.setVisibility(View.GONE);
-            clipboardListView.setVisibility(View.GONE);
+            initSettingsContent(methodInfoList);
             return;
         }
         if (id == R.id.info) {
-            settingsListView.setVisibility(View.GONE);
-            logListView.setVisibility(View.GONE);
-            infoListView.setVisibility(View.VISIBLE);
-            clipboardListView.setVisibility(View.GONE);
+            initInfoContent();
             return;
         }
         if (id == R.id.log) {
-            settingsListView.setVisibility(View.GONE);
-            logListView.setVisibility(View.VISIBLE);
-            infoListView.setVisibility(View.GONE);
-            clipboardListView.setVisibility(View.GONE);
+            initLogContent();
             return;
         }
         if (id == R.id.clipboard) {
-            settingsListView.setVisibility(View.GONE);
-            logListView.setVisibility(View.GONE);
-            infoListView.setVisibility(View.GONE);
-            clipboardListView.setVisibility(View.VISIBLE);
+            initClipboardContent();
         }
     }
 
@@ -266,13 +237,6 @@ final class BeeHelper implements View.OnClickListener {
                 case MotionEvent.ACTION_MOVE:
                     int x = (int) event.getRawX();
                     int y = (int) event.getRawY();
-
-                    if (x < 0) {
-                        // x = BEE_ICON_SIZE;
-                    }
-                    if (y < 0) {
-                        // y = BEE_ICON_SIZE;
-                    }
 
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) v.getLayoutParams();
                     params.topMargin = y - v.getHeight() / 2;

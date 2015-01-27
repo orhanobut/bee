@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
+ * Utility class to store settings
+ *
  * @author Orhan Obut
  */
 final class PrefHelper {

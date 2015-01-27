@@ -18,6 +18,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
+ * It is used to create setting items by using the given config class
+ *
  * @author Orhan Obut
  */
 class SettingsAdapter extends BaseAdapter {
@@ -56,28 +58,28 @@ class SettingsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, final ViewGroup parent) {
+        MethodInfo methodInfo = getItem(position);
         switch (getItemViewType(position)) {
             case ViewType.BUTTON:
-                return createButton(parent, position);
+                return createButton(parent, methodInfo);
             case ViewType.CHECKBOX:
-                return createCheckBox(parent, position);
+                return createCheckBox(parent, methodInfo);
             case ViewType.SPINNER:
-                return createSpinner(parent, position);
+                return createSpinner(parent, methodInfo);
         }
         return null;
     }
 
-    private View createSpinner(ViewGroup parent, int position) {
+    private View createSpinner(ViewGroup parent, MethodInfo methodInfo) {
 
-        final MethodInfo item = getItem(position);
-        final Method method = item.getMethod();
-        final Object instance = item.getInstance();
+        final Method method = methodInfo.getMethod();
+        final Object instance = methodInfo.getInstance();
         final Context context = parent.getContext();
 
         View view = inflater.inflate(R.layout.item_settings_spinner, parent, false);
-        ((TextView) view.findViewById(R.id.title)).setText(item.getTitle());
+        ((TextView) view.findViewById(R.id.title)).setText(methodInfo.getTitle());
 
-        String[] dataList = (String[]) item.getData();
+        String[] dataList = (String[]) methodInfo.getData();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 parent.getContext(), R.layout.simple_spinner_item, dataList
         );
@@ -91,9 +93,7 @@ class SettingsAdapter extends BaseAdapter {
 
                 try {
                     method.invoke(instance, value);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
 
@@ -109,23 +109,20 @@ class SettingsAdapter extends BaseAdapter {
         return view;
     }
 
-    private View createButton(ViewGroup parent, int position) {
+    private View createButton(ViewGroup parent, MethodInfo methodInfo) {
 
-        final MethodInfo item = getItem(position);
-        final Method method = item.getMethod();
-        final Object instance = item.getInstance();
+        final Method method = methodInfo.getMethod();
+        final Object instance = methodInfo.getInstance();
 
         View view = inflater.inflate(R.layout.item_settings_button, parent, false);
         Button button = (Button) view.findViewById(R.id.button);
-        button.setText(String.valueOf(item.getData()));
+        button.setText(methodInfo.getTitle());
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     method.invoke(instance);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
@@ -134,23 +131,20 @@ class SettingsAdapter extends BaseAdapter {
         return view;
     }
 
-    private View createCheckBox(ViewGroup parent, int position) {
-        final MethodInfo item = getItem(position);
-        final Method method = item.getMethod();
-        final Object instance = item.getInstance();
+    private View createCheckBox(ViewGroup parent, MethodInfo methodInfo) {
+        final Method method = methodInfo.getMethod();
+        final Object instance = methodInfo.getInstance();
         final Context context = parent.getContext();
 
         View view = inflater.inflate(R.layout.item_settings_checkbox, parent, false);
-        ((TextView) view.findViewById(R.id.title)).setText(item.getTitle());
+        ((TextView) view.findViewById(R.id.title)).setText(methodInfo.getTitle());
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try {
                     method.invoke(instance, isChecked);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
 
@@ -161,4 +155,5 @@ class SettingsAdapter extends BaseAdapter {
 
         return view;
     }
+
 }

@@ -6,23 +6,30 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * It is used to provide necessary methods
+ *
  * @author Orhan Obut.
- *         <p/>
- *         For the future, all operations should be added here in order to take action
  */
 interface ConfigListener {
 
+    @SuppressWarnings("unused")
     void onInfoContentCreated(Map<String, String> content);
 
+    @SuppressWarnings("unused")
     void onLogContentCreated(List<String> list);
 
+    @SuppressWarnings("unused")
     void onClipboardContentCreated(Map<String, String> content);
 
+    @SuppressWarnings("unused")
     void onClose();
 
+    @SuppressWarnings("unused")
     void onSave();
 
+    @SuppressWarnings("unused")
     Context getContext();
 
+    @SuppressWarnings("unused")
     void setContext(Context context);
 }

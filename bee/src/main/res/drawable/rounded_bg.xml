@@ -5,7 +5,7 @@
     <corners android:radius="10dp"/>
     <solid android:color="#FFFFFF"/>
     <stroke
-        android:color="@color/bee_color2"
+        android:color="@color/bee_color_pressed"
         android:width="2dp"/>
 
 </shape>
