@@ -118,6 +118,10 @@ protected void onCreate(Bundle savedInstanceState) {
 BeeLog.d(TAG,"Some event triggered");
 ```
 
+#### Add more options to the settings.
+
+- Just create a method and use annotation and provide the signature.
+
 #### More
 
 - Long click to a list item will copy the value to the clipboard.
