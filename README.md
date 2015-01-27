@@ -121,6 +121,7 @@ BeeLog.d(TAG,"Some event triggered");
 #### Add more options to the settings.
 
 - Just create a method and use annotation and provide the signature.
+- You can add as many as options you want. All methods will be called individually.
 
 #### More
 
