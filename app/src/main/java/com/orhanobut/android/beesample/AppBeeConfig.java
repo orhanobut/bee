@@ -39,64 +39,46 @@ public class AppBeeConfig extends BeeConfig {
         super.onClose();
     }
 
-    @Title("Test")
+    @Title("Reset")
     @Button
-    public void onATestClicked() {
-        Log.d(TAG, "onTestClicked");
+    public void onResetClicked() {
+        Log.d(TAG, "onResetClicked");
     }
 
-    @Title("Test")
+    @Title("Restart")
     @Button
-    public void onTestClicked2() {
-        Log.d(TAG, "onTestClicked");
+    public void onRestartClicked() {
+        Log.d(TAG, "onRestartClicked");
     }
 
-    @Title("Test")
-    @Button
-    public void onTestClicked3() {
-        Log.d(TAG, "onTestClicked");
-    }
-
-    @Title("Checkbox")
+    @Title("Show splash screen")
     @CheckBox
-    public void onCest2Clicked(boolean isChecked) {
-        Log.d(TAG, "onTest2Clicked");
+    public void onShowSplashChecked(boolean isChecked) {
+        Log.d(TAG, "onShowSplashChecked");
     }
 
-    @Title("Test")
-    @Spinner({"content", "content2"})
-    public void onSpinnerClicked2(String selectedValue) {
-        Log.d(TAG, "onSpinnerClicked");
-    }
-
-    @Title("Checkbox")
+    @Title("Show ads")
     @CheckBox
-    public void onTest2Clicked2(boolean isChecked) {
-        Log.d(TAG, "onTest2Clicked");
+    public void onShowAdsChecked(boolean isChecked) {
+        Log.d(TAG, "onShowAdsChecked");
     }
 
-    @Title("Test")
-    @Spinner({"content", "content2"})
-    public void onSpinnerClicked(String selectedValue) {
-        Log.d(TAG, "onSpinnerClicked");
+    @Title("End Point")
+    @Spinner({"Staging", "Live", "Mock"})
+    public void onEndPointSelected(String selectedValue) {
+        Log.d(TAG, "onEndPointSelected");
     }
 
-    @Title("Test")
-    @Spinner({"content", "content2"})
-    public void onBpinnerClicked24(String selectedValue) {
-        Log.d(TAG, "onSpinnerClicked");
+    @Title("Select user")
+    @Spinner({"John Doe", "Foo Bar"})
+    public void onUserSelected(String selectedValue) {
+        Log.d(TAG, "onUserSelected");
     }
 
-    @Title("Checkbox")
-    @CheckBox
-    public void onAest2Clicked24(boolean isChecked) {
-        Log.d(TAG, "onTest2Clicked");
-    }
-
-    @Title("Test")
-    @Spinner({"content", "content2"})
-    public void onSpinnerClicked4(String selectedValue) {
-        Log.d(TAG, "onSpinnerClicked");
+    @Title("Select store option")
+    @Spinner({"SQLite", "In-Memory"})
+    public void onStoreOptionSelected(String selectedValue) {
+        Log.d(TAG, "onStoreOptionSelected");
     }
 
 }

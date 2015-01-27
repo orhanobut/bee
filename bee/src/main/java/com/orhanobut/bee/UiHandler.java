@@ -73,6 +73,20 @@ final class UiHandler implements View.OnClickListener {
         mainContainer = (ViewGroup) rootView.findViewById(R.id.main_container);
         listView = (ListView) mainContainer.findViewById(R.id.list);
         beeImageView = new ImageView(context);
+        initListView(listView);
+    }
+
+    private void initListView(ListView listView) {
+        final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ContentHolder contentHolder = (ContentHolder) parent.getItemAtPosition(position);
+                clipboard.setText(contentHolder.getValue());
+                showToast(contentHolder.getValue() + " is copied to clipboard");
+                return true;
+            }
+        });
     }
 
     /**
@@ -102,17 +116,6 @@ final class UiHandler implements View.OnClickListener {
         }
         ContentAdapter adapter = new ContentAdapter(context, list);
         listView.setAdapter(adapter);
-
-        final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ContentHolder contentHolder = (ContentHolder) parent.getItemAtPosition(position);
-                clipboard.setText(contentHolder.getValue());
-                showToast(contentHolder.getValue() + " is copied to clipboard");
-                return true;
-            }
-        });
     }
 
     private void showToast(String message) {
@@ -225,8 +228,13 @@ final class UiHandler implements View.OnClickListener {
 
     private final View.OnTouchListener onTouchListener = new View.OnTouchListener() {
 
+        private static final int MIN_MOVEMENT = 10;
+
         final BeeGestureListener gestureListener = new BeeGestureListener();
         final GestureDetector gestureDetector = new GestureDetector(context, gestureListener);
+
+        int prevX;
+        int prevY;
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -234,9 +242,17 @@ final class UiHandler implements View.OnClickListener {
                 return true;
             }
             switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    prevX = (int) event.getRawX();
+                    prevY = (int) event.getRawY();
+                    break;
                 case MotionEvent.ACTION_MOVE:
                     int x = (int) event.getRawX();
                     int y = (int) event.getRawY();
+
+                    if (!isMoveable(x, y)) {
+                        return true;
+                    }
 
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) v.getLayoutParams();
                     params.topMargin = y - v.getHeight() / 2;
@@ -246,6 +262,10 @@ final class UiHandler implements View.OnClickListener {
                     return true;
             }
             return false;
+        }
+
+        private boolean isMoveable(int x, int y) {
+            return (Math.abs(x - prevX) > MIN_MOVEMENT || Math.abs(y - prevY) > MIN_MOVEMENT);
         }
 
     };
