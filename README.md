@@ -1,11 +1,16 @@
 #Bee
-Bee is a QA/Debug tool that works like a widget in any application. The idea is to add some features/options to developer and QA to configure the app, get some information. Bee works like an extra view when the user presses the bee icon
+#### What is Bee?
+Bee is a QA/Debug tool that works like a widget in any application. The idea is to add some features/options to developer and QA to configure the app, get some information. Bee works like an extra view when the user presses the bee icon. You can do the following operations :
 
 - Configure the application on the fly
 - Add button, spinner and checkbox options regarding to your needs
 - Show the predefined information such as version number, android version, package name. Add some other custom information such as current end point
 - Show some usefull information to remind the user such as username, passwords for test
 - Show the log for the important events, ie: An event is triggered and you want to see whether it is triggered or not
+
+#### What Bee is not?
+- Bee is not an application
+- Bee is not for the release apk
 
 <img src='https://github.com/nr4bt/bee/blob/master/images/bee0.png' width='140' height='200'></img>
 <img src='https://github.com/nr4bt/bee/blob/master/images/bee3.png' width='140' height='200'></img>
