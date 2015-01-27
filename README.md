@@ -1,9 +1,9 @@
 #Bee
-Bee is a debug tool for developers and QA. You can do the following things with the bee easily : 
+Debug/QA tool
 
-- Configure the application while the app is running
-- Add button, spinner and checkbox and use them as you want.
-- Show the predefined information such as version number, android version, package name. You can also add some other custom information such as current end point
+- Configure the application on the fly
+- Add button, spinner and checkbox options regarding to your needs
+- Show the predefined information such as version number, android version, package name. Add some other custom information such as current end point
 - Show some usefull information to remind the user such as username, passwords for test
 - Show the log for the important events, ie: An event is triggered and you want to see whether it is triggered or not
 
