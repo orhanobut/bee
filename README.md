@@ -74,9 +74,7 @@ public class SampleBeeConfig extends BeeConfig {
     }
     
     /**
-     * Use Button annotation to add button to the settings menu.
-     * Title is used for button text. 
-     * Method should have no parameter.
+     * A sample button implementation
      */
     @Title("Reset")
     @Button
@@ -85,9 +83,7 @@ public class SampleBeeConfig extends BeeConfig {
     }
     
     /**
-     * Use CheckBox annotation to add checkbox to the settings menu.
-     * Title is used for the label. 
-     * Method should have a boolean parameter 
+     * A sample checkbox implementation
      */
     @Title("Show splash screen")
     @CheckBox
@@ -96,10 +92,7 @@ public class SampleBeeConfig extends BeeConfig {
     }
 
     /**
-     * Use Spinner annotation to add spinner to the settings menu.
-     * Spinner annotation gets the content of spinner, either String[] or just String
-     * Title is used for the label.
-     * Method should have String parameter
+     * A sample spinner implementation
      */
     @Title("End Point")
     @Spinner({"Staging", "Live", "Mock"})
@@ -120,6 +113,45 @@ protected void onCreate(Bundle savedInstanceState) {
 
     Bee.inject(this, SampleBeeConfig.class);
 }
+```
+
+#### Add buttons to the settings menu
+- Use Button annotation to create a new button in the settings menu.
+- Use Title annotation to put a text for button
+- Use nullary method (no parameter should be added) signature.
+- Add as many button as you need. All methods will be called individually.
+```java
+    @Title("Reset")
+    @Button
+    public void onResetClicked() {
+        Log.d(TAG, "onResetClicked");
+    }
+```
+
+#### Add checkbox to the settings menu
+- Use CheckBox annotation to create a new checkbox
+- Use Title annotation to put a label
+- Use following method signature. Only one parameter should be added and it should be boolean
+- Add as many checkbox as you need. All methods will be called individually.
+```java
+    @Title("Show splash screen")
+    @CheckBox
+    public void onShowSplashChecked(boolean isChecked) {
+        Log.d(TAG, "onShowSplashChecked");
+    }
+```
+
+#### Add dropdown(Spinner) to the settings menu
+- Use Spinner annotation to create a new spinner
+- Use Title annotation to put a label
+- Use following method signature. Only one parameter should be added and it should be String
+- Add as many dropdown as you need. All methods will be called individually and it will return the selected value
+```java
+    @Title("End Point")
+    @Spinner({"Staging", "Live", "Mock"})
+    public void onEndPointSelected(String selectedValue) {
+        Log.d(TAG, "onEndPointSelected");
+    }
 ```
 
 #### Use BeeLog in order to show the log in the bee
