@@ -22,6 +22,9 @@ android {
             build
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 repositories {
