@@ -1,5 +1,9 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Bee-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1441)
+
 #Bee
+QA/Debug Tool <br><br>
+<img src='https://github.com/nr4bt/bee/blob/master/images/logo.png' width='128' height='128'></img>
+
 #### What is Bee?
 Bee is a QA/Debug tool that works like a widget in any application. The idea is to add some features/options to developer and QA to configure the app, get some information. Bee works like an extra view when the user presses the bee icon. You can do the following operations :
 
