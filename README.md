@@ -2,7 +2,7 @@
 
 #Bee
 QA/Debug Tool <br><br>
-<img src='https://github.com/orhanobut/bee/blob/master/images/logo_bee.png' width='128' height='128'></img>
+<img src='https://github.com/orhanobut/bee/blob/master/images/bee_yellow.png' width='128' height='128'></img>
 
 #### What is Bee?
 Bee is a QA/Debug tool that works like a widget in any application. The idea is to add some features/options to developer and QA to configure the app, get some information. Bee works like an extra view when the user presses the bee icon. You can do the following operations :
