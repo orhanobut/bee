@@ -3,7 +3,7 @@ package com.orhanobut.bee;
 /**
  * @author Orhan Obut
  */
-class ViewType {
+final class ViewType {
 
     static final int CHECKBOX = 0;
     static final int BUTTON = 1;

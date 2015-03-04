@@ -1,6 +1,7 @@
 package com.orhanobut.bee;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Bee {
         try {
             new BeeHandler(context, clazz);
         } catch (IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
+            Log.d(TAG, e.getMessage());
         }
     }
 
