@@ -3,7 +3,7 @@ package com.orhanobut.bee;
 /**
  * @author Orhan Obut
  */
-class ContentItem implements ContentHolder {
+final class ContentItem implements ContentHolder {
 
     private final String title;
     private final String value;
