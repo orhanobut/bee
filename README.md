@@ -169,6 +169,12 @@ BeeLog.d(TAG,"Some event triggered");
 
 - Long click to a list item will copy the value to the clipboard.
 
+#### You might also like
+- [Hawk](https://github.com/orhanobut/hawk) Secure simple key-value storage
+- [Wasp](https://github.com/orhanobut/wasp) All-in-one network solution
+- [DialogPlus](https://github.com/orhanobut/dialogplus) Easy,simple dialog solution
+- [SimpleListView](https://github.com/orhanobut/simplelistview) Simple basic listview implementation with linearlayout
+
 #### License 
 <pre>
 Copyright 2015 Orhan Obut
