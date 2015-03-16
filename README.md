@@ -26,12 +26,7 @@ Bee is a QA/Debug tool that works like a widget in any application. The idea is 
 #### Gradle
 
 ```groovy
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
-}
-dependencies {
-    compile 'com.orhanobut:bee:1.1-SNAPSHOT@aar'
-}
+compile 'com.orhanobut:bee:1.2@aar'
 ```
 
 #### Usage
