@@ -1,6 +1,7 @@
 package com.orhanobut.bee;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -93,8 +93,8 @@ class SettingsAdapter extends BaseAdapter {
 
                 try {
                     method.invoke(instance, value);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Log.e("Bee", e.getMessage());
                 }
 
                 PrefHelper.setInt(context, method.getName(), position);
@@ -122,8 +122,8 @@ class SettingsAdapter extends BaseAdapter {
             public void onClick(View v) {
                 try {
                     method.invoke(instance);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Log.e("Bee", e.getMessage());
                 }
             }
         });
@@ -144,8 +144,8 @@ class SettingsAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try {
                     method.invoke(instance, isChecked);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Log.e("Bee", e.getMessage());
                 }
 
                 PrefHelper.setBoolean(context, method.getName(), isChecked);

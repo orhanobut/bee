@@ -1,6 +1,7 @@
 package com.orhanobut.bee;
 
 import android.content.Context;
+import android.view.Gravity;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,11 @@ import java.util.Map;
 public abstract class BeeConfig implements ConfigListener {
 
     private Context context;
+
+    @Override
+    public int getBeePosition() {
+        return Gravity.CENTER_VERTICAL | Gravity.END;
+    }
 
     @Override
     public void setContext(Context context) {
@@ -40,11 +46,6 @@ public abstract class BeeConfig implements ConfigListener {
 
     @Override
     public void onLogContentCreated(List<String> logList) {
-
-    }
-
-    @Override
-    public void onClipboardContentCreated(Map<String, String> content) {
 
     }
 

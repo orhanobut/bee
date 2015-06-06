@@ -26,7 +26,9 @@ public class Bee {
 
         try {
             new BeeHandler(context, clazz);
-        } catch (IllegalAccessException | InstantiationException e) {
+        } catch (IllegalAccessException e) {
+            Log.d(TAG, e.getMessage());
+        } catch (InstantiationException e) {
             Log.d(TAG, e.getMessage());
         }
     }

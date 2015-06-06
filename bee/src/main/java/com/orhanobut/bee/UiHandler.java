@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.os.Build;
 import android.text.ClipboardManager;
 import android.util.Log;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,6 +36,7 @@ import java.util.Map;
 final class UiHandler implements View.OnClickListener {
 
     private static final String TAG = UiHandler.class.getSimpleName();
+    private static final int BEE_SIZE = 80;
 
     /**
      * Stores all settings views
@@ -61,7 +65,9 @@ final class UiHandler implements View.OnClickListener {
 
     private final ConfigListener configListener;
 
-    UiHandler(Context context, List<MethodInfo> list, ConfigListener listener) {
+    private final Point displaySize;
+
+    public UiHandler(Context context, List<MethodInfo> list, ConfigListener listener) {
         this.context = context;
         this.methodInfoList = list;
         this.configListener = listener;
@@ -74,6 +80,11 @@ final class UiHandler implements View.OnClickListener {
         listView = (ListView) mainContainer.findViewById(R.id.list);
         beeImageView = new ImageView(context);
         initListView(listView);
+
+        //calculate the display size
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        displaySize = new Point();
+        displaySize.set(display.getWidth(), display.getHeight());
     }
 
     private void initListView(ListView listView) {
@@ -102,19 +113,6 @@ final class UiHandler implements View.OnClickListener {
 
     void initSettingsContent(List<MethodInfo> list) {
         BaseAdapter adapter = SettingsAdapter.newInstance(context, list);
-        listView.setAdapter(adapter);
-    }
-
-    @SuppressWarnings("deprecated")
-    private void initClipboardContent() {
-        final Map<String, String> content = new LinkedHashMap<>();
-        configListener.onClipboardContentCreated(content);
-
-        List<ContentHolder> list = new ArrayList<>(content.size());
-        for (Map.Entry<String, String> entry : content.entrySet()) {
-            list.add(new ContentItem(entry.getKey(), entry.getValue()));
-        }
-        ContentAdapter adapter = new ContentAdapter(context, list);
         listView.setAdapter(adapter);
     }
 
@@ -175,20 +173,14 @@ final class UiHandler implements View.OnClickListener {
      */
     private void initListeners(View view) {
         view.findViewById(R.id.close).setOnClickListener(this);
-        view.findViewById(R.id.save).setOnClickListener(this);
         view.findViewById(R.id.settings).setOnClickListener(this);
         view.findViewById(R.id.info).setOnClickListener(this);
         view.findViewById(R.id.log).setOnClickListener(this);
-        view.findViewById(R.id.clipboard).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.save) {
-            configListener.onSave();
-            return;
-        }
         if (id == R.id.close) {
             mainContainer.setVisibility(View.GONE);
             beeImageView.setVisibility(View.VISIBLE);
@@ -205,19 +197,13 @@ final class UiHandler implements View.OnClickListener {
         }
         if (id == R.id.log) {
             initLogContent();
-            return;
-        }
-        if (id == R.id.clipboard) {
-            initClipboardContent();
         }
     }
 
     private void setBeeButton(ViewGroup rootView) {
         beeImageView.setImageResource(R.drawable.bee);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER_VERTICAL | Gravity.END
+                BEE_SIZE, BEE_SIZE, configListener.getBeePosition()
         );
         beeImageView.setLayoutParams(params);
         beeImageView.setOnClickListener(null);
@@ -233,8 +219,7 @@ final class UiHandler implements View.OnClickListener {
         final BeeGestureListener gestureListener = new BeeGestureListener();
         final GestureDetector gestureDetector = new GestureDetector(context, gestureListener);
 
-        int prevX;
-        int prevY;
+        PointF touchPos = new PointF();
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -243,14 +228,16 @@ final class UiHandler implements View.OnClickListener {
             }
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    prevX = (int) event.getRawX();
-                    prevY = (int) event.getRawY();
+                    touchPos.set(event.getX(), event.getY());
                     break;
                 case MotionEvent.ACTION_MOVE:
                     int x = (int) event.getRawX();
                     int y = (int) event.getRawY();
 
                     if (!isMoveable(x, y)) {
+                        return true;
+                    }
+                    if (!isInBoundaries(x, y)) {
                         return true;
                     }
 
@@ -265,7 +252,12 @@ final class UiHandler implements View.OnClickListener {
         }
 
         private boolean isMoveable(int x, int y) {
-            return (Math.abs(x - prevX) > MIN_MOVEMENT || Math.abs(y - prevY) > MIN_MOVEMENT);
+            return (Math.abs(x - touchPos.x) > MIN_MOVEMENT || Math.abs(y - touchPos.y) > MIN_MOVEMENT);
+        }
+
+        private boolean isInBoundaries(int x, int y) {
+            int half = BEE_SIZE / 2;
+            return !(x + half > displaySize.x || x < half || y + half > displaySize.y || y < half + 50);
         }
 
     };

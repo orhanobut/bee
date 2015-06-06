@@ -12,14 +12,13 @@ import java.util.Map;
  */
 interface ConfigListener {
 
+    int getBeePosition();
+
     @SuppressWarnings("unused")
     void onInfoContentCreated(Map<String, String> content);
 
     @SuppressWarnings("unused")
     void onLogContentCreated(List<String> list);
-
-    @SuppressWarnings("unused")
-    void onClipboardContentCreated(Map<String, String> content);
 
     @SuppressWarnings("unused")
     void onClose();
