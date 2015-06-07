@@ -214,7 +214,7 @@ final class UiHandler implements View.OnClickListener {
 
     private final View.OnTouchListener onTouchListener = new View.OnTouchListener() {
 
-        private static final int MIN_MOVEMENT = 10;
+        private static final int MIN_MOVEMENT = 20;
 
         final BeeGestureListener gestureListener = new BeeGestureListener();
         final GestureDetector gestureDetector = new GestureDetector(context, gestureListener);

@@ -10,7 +10,6 @@ Bee is a QA/Debug tool that works like a widget in any application. The idea is 
 - Configure the application on the fly
 - Add button, spinner and checkbox options regarding to your needs
 - Show the predefined information such as version number, android version, package name. Add some other custom information such as current end point
-- Show some usefull information to remind the user such as username, passwords for test
 - Show the log for the important events, ie: An event is triggered and you want to see whether it is triggered or not
 
 #### What Bee is not?
@@ -21,7 +20,6 @@ Bee is a QA/Debug tool that works like a widget in any application. The idea is 
 <img src='https://github.com/nr4bt/bee/blob/master/images/bee3.png' width='140' height='200'></img>
 <img src='https://github.com/nr4bt/bee/blob/master/images/bee1.png' width='140' height='200'></img>
 <img src='https://github.com/nr4bt/bee/blob/master/images/bee2.png' width='140' height='200'></img>
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee4.png' width='140' height='200'></img>
 
 #### Gradle
 
@@ -40,24 +38,6 @@ public class SampleBeeConfig extends BeeConfig {
     @Override
     public void onInfoContentCreated(Map<String, String> content) {
         content.put("Current End Point", "http://www.google.com");
-    }
-
-    /**
-     * Add information to the clipboard by using content object.
-     */
-    @Override
-    public void onClipboardContentCreated(Map<String, String> content) {
-        content.put("User1", "324234234");
-        content.put("Visa Expire Date", "2/16");
-        content.put("Visa Code", "34");
-    }
-
-    /**
-     * It is called when the save button is pressed
-     */
-    @Override
-    public void onSave() {
-        super.onSave();
     }
 
     /**
@@ -93,6 +73,14 @@ public class SampleBeeConfig extends BeeConfig {
     @Spinner({"Staging", "Live", "Mock"})
     public void onEndPointSelected(String selectedValue) {
         Log.d(TAG, "onEndPointSelected");
+    }
+
+    /**
+     * Change the bee button position
+     */
+    @Override
+    public int getBeePosition() {
+      return Gravity.LEFT | Gravity.CENTER_VERTICAL;
     }
 
 }
