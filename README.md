@@ -17,14 +17,14 @@ Bee is a QA/Debug tool that works like a widget in any application. The idea is 
 - Bee is not for the release apk
 
 <img src='https://github.com/nr4bt/bee/blob/master/images/bee0.png' width='140' height='200'></img>
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee3.png' width='140' height='200'></img>
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee1.png' width='140' height='200'></img>
-<img src='https://github.com/nr4bt/bee/blob/master/images/bee2.png' width='140' height='200'></img>
+<img src='https://github.com/nr4bt/bee/blob/master/images/bee_settings.png' width='140' height='200'></img>
+<img src='https://github.com/nr4bt/bee/blob/master/images/bee_info.png' width='140' height='200'></img>
+<img src='https://github.com/nr4bt/bee/blob/master/images/bee_log.png' width='140' height='200'></img>
 
 #### Gradle
 
 ```groovy
-compile 'com.orhanobut:bee:1.2@aar'
+compile 'com.orhanobut:bee:1.3@aar'
 ```
 
 #### Usage
