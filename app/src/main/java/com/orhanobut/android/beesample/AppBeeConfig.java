@@ -1,6 +1,7 @@
 package com.orhanobut.android.beesample;
 
 import android.util.Log;
+import android.view.Gravity;
 
 import com.orhanobut.bee.BeeConfig;
 import com.orhanobut.bee.widgets.Button;
@@ -17,22 +18,18 @@ public class AppBeeConfig extends BeeConfig {
 
     private static final String TAG = AppBeeConfig.class.getSimpleName();
 
+
+    @Override
+    public int getBeePosition() {
+        return Gravity.LEFT | Gravity.CENTER_VERTICAL;
+    }
+
     /**
      * Add extra information by using content object.
      */
     @Override
     public void onInfoContentCreated(Map<String, String> content) {
         content.put("Current End Point", "http://www.google.com");
-    }
-
-    /**
-     * Add information to the clipboard by using content object.
-     */
-    @Override
-    public void onClipboardContentCreated(Map<String, String> content) {
-        content.put("User1", "324234234");
-        content.put("Visa Expire Date", "2/16");
-        content.put("Visa Code", "34");
     }
 
     /**
