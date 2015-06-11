@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Build;
+import android.os.SystemClock;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Display;
@@ -36,7 +37,6 @@ import java.util.Map;
 final class UiHandler implements View.OnClickListener {
 
     private static final String TAG = UiHandler.class.getSimpleName();
-    private static final int BEE_SIZE = 80;
 
     /**
      * Stores all settings views
@@ -67,8 +67,11 @@ final class UiHandler implements View.OnClickListener {
 
     private final Point displaySize;
 
-    public UiHandler(Context context, List<MethodInfo> list, ConfigListener listener) {
-        this.context = context;
+    private final Settings settings;
+
+    public UiHandler(Settings settings, List<MethodInfo> list, ConfigListener listener) {
+        this.settings = settings;
+        this.context = settings.getContext();
         this.methodInfoList = list;
         this.configListener = listener;
 
@@ -203,8 +206,13 @@ final class UiHandler implements View.OnClickListener {
     private void setBeeButton(ViewGroup rootView) {
         beeImageView.setImageResource(R.drawable.bee);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                BEE_SIZE, BEE_SIZE, configListener.getBeePosition()
+                settings.getBeeSize(), settings.getBeeSize(), settings.getGravity()
         );
+        int[] margin = settings.getBeeMargin();
+        if (margin != null) {
+            params.setMargins(margin[0], margin[1], margin[2], margin[3]);
+        }
+
         beeImageView.setLayoutParams(params);
         beeImageView.setOnClickListener(null);
 
@@ -220,6 +228,7 @@ final class UiHandler implements View.OnClickListener {
         final GestureDetector gestureDetector = new GestureDetector(context, gestureListener);
 
         PointF touchPos = new PointF();
+        long touchTime;
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -228,6 +237,7 @@ final class UiHandler implements View.OnClickListener {
             }
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    touchTime = SystemClock.uptimeMillis();
                     touchPos.set(event.getX(), event.getY());
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -235,10 +245,10 @@ final class UiHandler implements View.OnClickListener {
                     int y = (int) event.getRawY();
 
                     if (!isMoveable(x, y)) {
-                        return true;
+                        break;
                     }
                     if (!isInBoundaries(x, y)) {
-                        return true;
+                        break;
                     }
 
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) v.getLayoutParams();
@@ -246,17 +256,20 @@ final class UiHandler implements View.OnClickListener {
                     params.leftMargin = x - v.getWidth() / 2;
                     params.gravity = Gravity.NO_GRAVITY;
                     v.setLayoutParams(params);
-                    return true;
+                    break;
             }
-            return false;
+            return SystemClock.uptimeMillis() - touchTime > 200;
         }
 
         private boolean isMoveable(int x, int y) {
+            if (SystemClock.uptimeMillis() - touchTime < 200) {
+                return false;
+            }
             return (Math.abs(x - touchPos.x) > MIN_MOVEMENT || Math.abs(y - touchPos.y) > MIN_MOVEMENT);
         }
 
         private boolean isInBoundaries(int x, int y) {
-            int half = BEE_SIZE / 2;
+            int half = settings.getBeeSize() / 2;
             return !(x + half > displaySize.x || x < half || y + half > displaySize.y || y < half + 50);
         }
 

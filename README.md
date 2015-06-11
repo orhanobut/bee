@@ -24,7 +24,7 @@ Bee is a QA/Debug tool that works like a widget in any application. The idea is 
 #### Gradle
 
 ```groovy
-compile 'com.orhanobut:bee:1.3@aar'
+compile 'com.orhanobut:bee:1.4@aar'
 ```
 
 #### Usage
@@ -75,14 +75,6 @@ public class SampleBeeConfig extends BeeConfig {
         Log.d(TAG, "onEndPointSelected");
     }
 
-    /**
-     * Change the bee button position
-     */
-    @Override
-    public int getBeePosition() {
-      return Gravity.LEFT | Gravity.CENTER_VERTICAL;
-    }
-
 }
 ```
 
@@ -94,7 +86,11 @@ In order to activate Bee, you need to pass activity as context. You can either i
 protected void onCreate(Bundle savedInstanceState) {
     ...
 
-    Bee.inject(this, SampleBeeConfig.class);
+    Bee.init(this)
+       .setBeeSize(100)                 //optional bee button size
+       .setBeePosition(Gravity.CENTER)  //optional bee button position
+       .setBeeMargin(0, 0, 0, 400)      //optional margin for the bee button
+       .inject(SampleBeeConfig.class);  //required
 }
 ```
 
