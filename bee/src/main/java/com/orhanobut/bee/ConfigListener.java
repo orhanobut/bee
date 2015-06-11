@@ -12,8 +12,6 @@ import java.util.Map;
  */
 interface ConfigListener {
 
-    int getBeePosition();
-
     @SuppressWarnings("unused")
     void onInfoContentCreated(Map<String, String> content);
 
@@ -22,9 +20,6 @@ interface ConfigListener {
 
     @SuppressWarnings("unused")
     void onClose();
-
-    @SuppressWarnings("unused")
-    void onSave();
 
     @SuppressWarnings("unused")
     Context getContext();
