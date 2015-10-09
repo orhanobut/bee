@@ -8,75 +8,76 @@ import com.orhanobut.bee.widgets.Title;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-/**
- * @author Orhan Obut
- */
 class MethodInfo {
 
-    static final int INVALID = -1;
+  static final int VIEW_BUTTON = 1;
+  static final int VIEW_CHECKBOX = 2;
+  static final int VIEW_SPINNER = 3;
 
-    private final Method method;
+  static final int INVALID = -1;
 
-    private int viewType = INVALID;
-    private Object data;
-    private String title;
-    private Object instance;
+  private final Method method;
 
-    private MethodInfo(Method method, Object instance) {
-        this.method = method;
-        this.instance = instance;
+  private int viewType = INVALID;
+  private Object data;
+  private String title;
+  private Object instance;
 
-        parseMethodAnnotations();
+  private MethodInfo(Method method, Object instance) {
+    this.method = method;
+    this.instance = instance;
+
+    parseMethodAnnotations();
+  }
+
+  static MethodInfo newInstance(Method method, Object instance) {
+    return new MethodInfo(method, instance);
+  }
+
+  private void parseMethodAnnotations() {
+    Annotation[] annotations = method.getAnnotations();
+    for (Annotation annotation : annotations) {
+      Class<? extends Annotation> annotationType = annotation.annotationType();
+
+      if (annotationType == Title.class) {
+        title = ((Title) annotation).value();
+        continue;
+      }
+
+      if (annotationType == Button.class) {
+        viewType = VIEW_BUTTON;
+        continue;
+      }
+
+      if (annotationType == CheckBox.class) {
+        viewType = VIEW_CHECKBOX;
+        continue;
+      }
+
+      if (annotationType == Spinner.class) {
+        data = ((Spinner) annotation).value();
+        viewType = VIEW_SPINNER;
+      }
     }
+  }
 
-    static MethodInfo newInstance(Method method, Object instance) {
-        return new MethodInfo(method, instance);
-    }
+  Method getMethod() {
+    return method;
+  }
 
-    private void parseMethodAnnotations() {
-        Annotation[] annotations = method.getAnnotations();
-        for (Annotation annotation : annotations) {
-            Class<? extends Annotation> annotationType = annotation.annotationType();
+  int getViewType() {
+    return viewType;
+  }
 
-            if (annotationType == Title.class) {
-                title = ((Title) annotation).value();
-                continue;
-            }
+  Object getData() {
+    return data;
+  }
 
-            if (annotationType == Button.class) {
-                viewType = ViewType.BUTTON;
-                continue;
-            }
+  String getTitle() {
+    return title;
+  }
 
-            if (annotationType == CheckBox.class) {
-                viewType = ViewType.CHECKBOX;
-                continue;
-            }
-
-            if (annotationType == Spinner.class) {
-                data = ((Spinner) annotation).value();
-                viewType = ViewType.SPINNER;
-            }
-        }
-    }
-
-    Method getMethod() {
-        return method;
-    }
-
-    int getViewType() {
-        return viewType;
-    }
-
-    Object getData() {
-        return data;
-    }
-
-    String getTitle() {
-        return title;
-    }
-
-    Object getInstance() {
-        return instance;
-    }
+  Object getInstance() {
+    return instance;
+  }
 }

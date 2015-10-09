@@ -8,12 +8,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * It is used to provide a title for the settings
- *
- * @author Orhan Obut
  */
 @Target(METHOD)
 @Retention(RUNTIME)
 public @interface Title {
 
-    String value();
+  String value();
 }

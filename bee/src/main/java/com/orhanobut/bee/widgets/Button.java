@@ -8,8 +8,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * It is used to add button the settings menu
- *
- * @author Orhan Obut
  */
 @Target(METHOD)
 @Retention(RUNTIME)
