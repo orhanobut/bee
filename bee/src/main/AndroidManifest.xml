@@ -1,8 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.orhanobut.bee">
-
-<application android:allowBackup="true">
-
-    </application>
-
-</manifest>
+<manifest package="com.orhanobut.bee"/>

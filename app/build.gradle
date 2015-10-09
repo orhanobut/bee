@@ -1,37 +1,32 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+  compileSdkVersion 21
+  buildToolsVersion "21.1.1"
 
-    defaultConfig {
-        applicationId "com.orhanobut.android.beesample"
-        minSdkVersion 10
-        targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
-    }
+  defaultConfig {
+    applicationId "com.orhanobut.android.beesample"
+    minSdkVersion 10
+    targetSdkVersion 21
+    versionCode 1
+    versionName "1.0"
+  }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
 
-    buildTypes {
-        debug {
-            build
-        }
+  buildTypes {
+    debug {
+      build
     }
-    lintOptions {
-        abortOnError false
-    }
-}
-
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+  }
+  lintOptions {
+    abortOnError false
+  }
 }
 
 dependencies {
-    compile project(':bee')
-    compile 'com.orhanobut:wasp:1.2-SNAPSHOT'
+  compile project(':bee')
 }
